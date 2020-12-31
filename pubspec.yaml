@@ -1,5 +1,5 @@
 name: view
-description: A new Flutter project.
+description: 一个基于 flutter 的图片社交 APP
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -21,9 +21,20 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+
+
   flutter:
     sdk: flutter
+    # Add the dependency for the Firebase Core Flutter SDK
+  firebase_core: ^0.4.0+9
+  
+    # Add the dependency for the FlutterFire plugin for Google Analytics
+  firebase_analytics: ^5.0.2
 
+  # Add the dependencies for any other Firebase products you want to use in your app
+  # For example, to use Firebase Authentication and Cloud Firestore
+  firebase_auth: ^0.14.0+5
+  cloud_firestore: ^0.12.9+5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
