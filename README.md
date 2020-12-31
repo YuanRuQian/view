@@ -30,3 +30,21 @@ Firebase
 ## 最后呈现安卓端产品
 
 因为某果开发者认证 99 刀 安卓的免费……
+
+## 数据模型设计
+
+### 用户
+
+用户ID
+用户名
+头像图片的URL
+邮箱
+简介
+
+```
+  final String id;
+  final String name;
+  final String profileImageUrl;
+  final String email;
+  final String bio;
+```
