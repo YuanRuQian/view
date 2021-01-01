@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:view/models/userData.dart';
-import 'package:view/pages/activityPage.dart';
-import 'package:view/pages/addPostPage.dart';
-import 'package:view/pages/feedPage.dart';
-import 'package:view/pages/profilePage.dart';
-import 'package:view/pages/searchPage.dart';
+import 'package:view/ui/pages/activityPage.dart';
+import 'package:view/ui/pages/addPostPage.dart';
+import 'package:view/ui/pages/feedPage.dart';
+import 'package:view/ui/pages/profilePage.dart';
+import 'package:view/ui/pages/searchPage.dart';
 import 'package:provider/provider.dart';
 import 'package:view/ui/pages/activityPage.dart';
 import 'package:view/ui/pages/addPostPage.dart';
