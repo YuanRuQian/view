@@ -9,6 +9,9 @@ Firebase
 理由：
 - 对于 flutter 的支持好
 
+
+
+
 其他思考：
 
 这种图片分享的 app 
@@ -48,3 +51,7 @@ Firebase
   final String email;
   final String bio;
 ```
+
+测试账号：
+email :  admin@view.com
+password : 123456

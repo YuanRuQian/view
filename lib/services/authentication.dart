@@ -17,10 +17,11 @@ class AuthService {
       );
       FirebaseUser signedInUser = authResult.user;
       if (signedInUser != null) {
-        _firestore.collection('users').document(signedInUser.uid).setData({
+        _firestore.collection('/users').document(signedInUser.uid).setData({
           'name': name,
           'email': email,
           'profileImageUrl': '',
+          'password': password
         });
         Provider.of<UserData>(context).currentUserId = signedInUser.uid;
         Navigator.pop(context);

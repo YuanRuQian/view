@@ -15,6 +15,7 @@ class _LoginPageState extends State<LogInPage> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       // Logging in the user w/ Firebase
+      print('log in with $_email $_password');
       AuthService.login(_email, _password);
     }
   }

@@ -14,6 +14,7 @@ class _SignUpPageState extends State<SignUpPage> {
   _submit() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      print('sign up with $_email $_name $_password');
       // Logging in the user w/ Firebase
       AuthService.signUpUser(context, _name, _email, _password);
     }
