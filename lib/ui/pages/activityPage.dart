@@ -12,11 +12,78 @@ import 'package:provider/provider.dart';
 import 'package:view/ui/pages/commentPage.dart';
 
 class ActivityPage extends StatefulWidget {
+  final String currentUserId;
+  ActivityPage({this.currentUserId});
   @override
   _ActivityPageState createState() => _ActivityPageState();
 }
 
 class _ActivityPageState extends State<ActivityPage> {
+  List<Activity> _activities = [];
+  void initState() {
+    super.initState();
+    _setupActivities();
+  }
+
+   _setupActivities() async {
+    List<Activity> activities =
+        await DatabaseService.getActivities(widget.currentUserId);
+    if (mounted) {
+      setState(() {
+        _activities = activities;
+      });
+    }
+  }
+
+  _buildActivity(Activity activity) {
+    return FutureBuilder(
+      future: DatabaseService.getUserWithId(activity.fromUserId),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (!snapshot.hasData) {
+          return SizedBox.shrink();
+        }
+        User user = snapshot.data;
+        return ListTile(
+          leading: CircleAvatar(
+            radius: 25.0,
+            backgroundColor: Colors.white,
+            backgroundImage: user.profileImageUrl.isEmpty
+                ? AssetImage('assets/user_placeholder.png')
+                : CachedNetworkImageProvider(user.profileImageUrl),
+          ),
+          title: activity.comment != null
+              ? Text('${user.name} commented: "${activity.comment}"')
+              : Text('${user.name} liked your post'),
+          subtitle: Text(
+            DateFormat.yMd().add_jm().format(activity.timestamp.toDate()),
+          ),
+          trailing: CachedNetworkImage(
+            imageUrl: activity.postImageUrl,
+            height: 40.0,
+            width: 40.0,
+            fit: BoxFit.cover,
+          ),
+          onTap: () async {
+            String currentUserId = Provider.of<UserData>(context).currentUserId;
+            Post post = await DatabaseService.getUserPost(
+              currentUserId,
+              activity.postId,
+            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => CommentPage(
+                  post: post,
+                  likeCount: post.likeCount,
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
