@@ -15,9 +15,23 @@ class _LoginPageState extends State<LogInPage> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       // Logging in the user w/ Firebase
-      print('log in with $_email $_password');
+      print('登录: $_email $_password');
       AuthService.login(_email, _password);
     }
+  }
+
+  bool validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    return regex.hasMatch(value);
+  }
+
+  bool validatePassword(String value) {
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp = new RegExp(pattern);
+    return regExp.hasMatch(value) && value.length >= 8;
   }
 
   @override
@@ -45,10 +59,9 @@ class _LoginPageState extends State<LogInPage> {
                       vertical: 10.0,
                     ),
                     child: TextFormField(
-                      decoration: InputDecoration(labelText: 'Email'),
-                      validator: (input) => !input.contains('@')
-                          ? 'Please enter a valid email'
-                          : null,
+                      decoration: InputDecoration(labelText: '邮箱'),
+                      validator: (input) =>
+                          !validateEmail(input) ? '请输入合法的邮箱地址' : null,
                       onSaved: (input) => _email = input,
                     ),
                   ),
@@ -58,10 +71,9 @@ class _LoginPageState extends State<LogInPage> {
                       vertical: 10.0,
                     ),
                     child: TextFormField(
-                      decoration: InputDecoration(labelText: 'Password'),
-                      validator: (input) => input.length < 6
-                          ? 'Must be at least 6 characters'
-                          : null,
+                      decoration: InputDecoration(labelText: '密码'),
+                      validator: (input) => 
+                            !validatePassword(input) ? '密码至少分别一位大小字母,特殊字符和数字且至少8位' : null,
                       onSaved: (input) => _password = input,
                       obscureText: true,
                     ),
