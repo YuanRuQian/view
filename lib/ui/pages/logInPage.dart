@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:view/services/authentication.dart';
 import 'package:view/ui/pages/signUpPage.dart';
+import 'package:view/utilities/tools.dart';
 
 class LogInPage extends StatefulWidget {
   static final String id = 'log_in_page';
@@ -20,19 +21,8 @@ class _LoginPageState extends State<LogInPage> {
     }
   }
 
-  bool validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    return regex.hasMatch(value);
-  }
+ 
 
-  bool validatePassword(String value) {
-    String pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regExp = new RegExp(pattern);
-    return regExp.hasMatch(value) && value.length >= 8;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +76,7 @@ class _LoginPageState extends State<LogInPage> {
                       color: Colors.blue,
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Login',
+                        '登录',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18.0,
@@ -103,7 +93,7 @@ class _LoginPageState extends State<LogInPage> {
                       color: Colors.blue,
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Go to Signup',
+                        '前往注册',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18.0,

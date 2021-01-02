@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:view/services/authentication.dart';
+import 'package:view/utilities/tools.dart';
 
 class SignUpPage extends StatefulWidget {
   static final String id = 'sign_up_page';
@@ -14,7 +15,7 @@ class _SignUpPageState extends State<SignUpPage> {
   _submit() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      print('sign up with $_email $_name $_password');
+      print('创建账号 $_email $_name $_password');
       // Logging in the user w/ Firebase
       AuthService.signUpUser(context, _name, _email, _password);
     }
@@ -47,9 +48,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         vertical: 10.0,
                       ),
                       child: TextFormField(
-                        decoration: InputDecoration(labelText: 'Name'),
+                        decoration: InputDecoration(labelText: '用户名'),
                         validator: (input) => input.trim().isEmpty
-                            ? 'Please enter a valid name'
+                            ? '请输入一个合法的用户名'
                             : null,
                         onSaved: (input) => _name = input,
                       ),
@@ -60,10 +61,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         vertical: 10.0,
                       ),
                       child: TextFormField(
-                        decoration: InputDecoration(labelText: 'Email'),
-                        validator: (input) => !input.contains('@')
-                            ? 'Please enter a valid email'
-                            : null,
+                        decoration: InputDecoration(labelText: '邮箱'),
+                        validator: (input) => !validateEmail(input) ? '请输入合法的邮箱地址' : null,
                         onSaved: (input) => _email = input,
                       ),
                     ),
@@ -73,10 +72,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         vertical: 10.0,
                       ),
                       child: TextFormField(
-                        decoration: InputDecoration(labelText: 'Password'),
-                        validator: (input) => input.length < 6
-                            ? 'Must be at least 6 characters'
-                            : null,
+                        decoration: InputDecoration(labelText: '密码'),
+                        validator: (input) => !validatePassword(input) ? '密码至少分别一位大小字母,特殊字符和数字且至少8位' : null,
                         onSaved: (input) => _password = input,
                         obscureText: true,
                       ),
@@ -89,7 +86,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         color: Colors.blue,
                         padding: EdgeInsets.all(10.0),
                         child: Text(
-                          'Sign Up',
+                          '注册',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18.0,
@@ -105,7 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         color: Colors.blue,
                         padding: EdgeInsets.all(10.0),
                         child: Text(
-                          'Back to Login',
+                          '回到登录',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18.0,
