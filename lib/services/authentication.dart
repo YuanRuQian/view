@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:view/models/userData.dart';
 import 'package:provider/provider.dart';
+import 'package:view/ui/pages/homePage.dart';
 
 class AuthService {
   static final _auth = FirebaseAuth.instance;
@@ -35,9 +36,10 @@ class AuthService {
     _auth.signOut();
   }
 
-  static void login(String email, String password) async {
+  static void login(BuildContext context, String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      Navigator.pushNamed(context, HomePage.id);
     } catch (e) {
       print(e);
     }

@@ -7,18 +7,14 @@ import 'package:view/ui/pages/feedPage.dart';
 import 'package:view/ui/pages/profilePage.dart';
 import 'package:view/ui/pages/searchPage.dart';
 import 'package:provider/provider.dart';
-import 'package:view/ui/pages/activityPage.dart';
-import 'package:view/ui/pages/addPostPage.dart';
-import 'package:view/ui/pages/feedPage.dart';
-import 'package:view/ui/pages/profilePage.dart';
-import 'package:view/ui/pages/searchPage.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomePage extends StatefulWidget {
+  static final String id = 'home_page';
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomePage> {
   int _currentTab = 0;
   PageController _pageController;
 

@@ -17,7 +17,7 @@ class _LoginPageState extends State<LogInPage> {
       _formKey.currentState.save();
       // Logging in the user w/ Firebase
       print('登录: $_email $_password');
-      AuthService.login(_email, _password);
+      AuthService.login(context,_email, _password);
     }
   }
 
