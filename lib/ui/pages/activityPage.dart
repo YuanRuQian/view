@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:view/models/activityModel.dart';
@@ -25,7 +24,7 @@ class _ActivityPageState extends State<ActivityPage> {
     _setupActivities();
   }
 
-   _setupActivities() async {
+  _setupActivities() async {
     List<Activity> activities =
         await DatabaseService.getActivities(widget.currentUserId);
     if (mounted) {
@@ -35,7 +34,7 @@ class _ActivityPageState extends State<ActivityPage> {
     }
   }
 
- _buildActivity(Activity activity) {
+  _buildActivity(Activity activity) {
     return FutureBuilder(
       future: DatabaseService.getUserWithId(activity.fromUserId),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
