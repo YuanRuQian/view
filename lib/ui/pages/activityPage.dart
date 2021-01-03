@@ -92,7 +92,6 @@ class _ActivityPageState extends State<ActivityPage> {
           'Instagram',
           style: TextStyle(
             color: Colors.black,
-            fontFamily: 'Billabong',
             fontSize: 35.0,
           ),
         ),

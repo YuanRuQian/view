@@ -22,10 +22,9 @@ class _FeedPageState extends State<FeedPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'Instagram',
+          'View',
           style: TextStyle(
             color: Colors.black,
-            fontFamily: 'Billabong',
             fontSize: 35.0,
           ),
         ),

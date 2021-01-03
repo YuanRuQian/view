@@ -1,3 +1,5 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +40,10 @@ class AuthService {
 
   static void login(BuildContext context, String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      Navigator.pushNamed(context, HomePage.id);
+      AuthResult result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      Provider.of<UserData>(context, listen: false).currentUserId  = result.user.uid;
+      Navigator.pop(context);
     } catch (e) {
       print(e);
     }

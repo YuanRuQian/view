@@ -345,7 +345,6 @@ class _ProfilePageState extends State<ProfilePage> {
           'Instagram',
           style: TextStyle(
             color: Colors.black,
-            fontFamily: 'Billabong',
             fontSize: 35.0,
           ),
         ),
