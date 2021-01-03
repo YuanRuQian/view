@@ -136,15 +136,7 @@ class _PostViewState extends State<PostView> {
                   ? Animator(
                       duration: Duration(milliseconds: 300),
                       tween: Tween(begin: 0.5, end: 1.4),
-                      curve: Curves.elasticOut,
-                      builder: (anim) => Transform.scale(
-                        scale: anim.value,
-                        child: Icon(
-                          Icons.favorite,
-                          size: 100.0,
-                          color: Colors.red[400],
-                        ),
-                      ),
+                      curve: Curves.elasticOut
                     )
                   : SizedBox.shrink(),
             ],

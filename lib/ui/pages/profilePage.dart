@@ -6,7 +6,7 @@ import 'package:view/models/userData.dart';
 import 'package:view/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:view/ui/pages/commentPage.dart';
-import 'package:view/ui/pages/postView.dart';
+import 'package:view/ui/widgets/postView.dart';
 import 'package:view/ui/pages/editProfilePage.dart';
 import 'package:view/services/authentication.dart';
 import 'package:view/utilities/constants.dart';

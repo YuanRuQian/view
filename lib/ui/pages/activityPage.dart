@@ -35,7 +35,7 @@ class _ActivityPageState extends State<ActivityPage> {
     }
   }
 
-  _buildActivity(Activity activity) {
+ _buildActivity(Activity activity) {
     return FutureBuilder(
       future: DatabaseService.getUserWithId(activity.fromUserId),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -45,10 +45,10 @@ class _ActivityPageState extends State<ActivityPage> {
         User user = snapshot.data;
         return ListTile(
           leading: CircleAvatar(
-            radius: 25.0,
-            backgroundColor: Colors.white,
+            radius: 20.0,
+            backgroundColor: Colors.grey,
             backgroundImage: user.profileImageUrl.isEmpty
-                ? AssetImage('assets/user_placeholder.png')
+                ? AssetImage('assets/images/user_placeholder.jpg')
                 : CachedNetworkImageProvider(user.profileImageUrl),
           ),
           title: activity.comment != null
@@ -86,8 +86,28 @@ class _ActivityPageState extends State<ActivityPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: CommentPage(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          'Instagram',
+          style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Billabong',
+            fontSize: 35.0,
+          ),
+        ),
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => _setupActivities(),
+        child: ListView.builder(
+          itemCount: _activities.length,
+          itemBuilder: (BuildContext context, int index) {
+            Activity activity = _activities[index];
+            return _buildActivity(activity);
+          },
+        ),
+      ),
     );
   }
 }
