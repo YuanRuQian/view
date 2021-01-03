@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:view/ui/pages/LogInPage.dart';
 import 'package:view/ui/pages/signUpPage.dart';
+import 'package:view/ui/pages/feedPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,6 +20,7 @@ void main() {
           routes: {
           LogInPage.id: (context) => LogInPage(),
           SignUpPage.id: (context) => SignUpPage(),
+          FeedPage.id: (context) => FeedPage(),
         },
         );
       }
