@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:view/models/postModel.dart';
 import 'package:view/models/userModel.dart';
 import 'package:view/models/userData.dart';
 import 'package:view/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:view/ui/pages/commentPage.dart';
+import 'package:view/ui/pages/postView.dart';
 import 'package:view/ui/pages/editProfilePage.dart';
+import 'package:view/services/authentication.dart';
+import 'package:view/utilities/constants.dart';
 
 class ProfilePage extends StatefulWidget {
   final String currentUserId;
