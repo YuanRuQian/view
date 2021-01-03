@@ -35,11 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PageView(
         controller: _pageController,
         children: <Widget>[
-          FeedPage(),
+          FeedPage(currentUserId: currentUserId),
           SearchPage(),
           AddPostPage(),
-          ActivityPage(),
-          ProfilePage(),
+          ActivityPage(currentUserId: currentUserId),
+          ProfilePage(
+            currentUserId: currentUserId,
+            userId: currentUserId,
+          ),
         ],
         onPageChanged: (int index) {
           setState(() {
