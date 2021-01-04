@@ -28,7 +28,7 @@ Firebase
 
 然后 就会有一个用户修改了个人信息 / po 新照片 这个修改怎么去推送给订阅人的问题 (fan-out operation)
 
-这段参考： [https://medium.com/@garyalexanderpiong/building-a-working-instagram-clone-using-flutter-and-firebase-1c9f9bb960ef](https://medium.com/@garyalexanderpiong/building-a-working-instagram-clone-using-flutter-and-firebase-1c9f9bb960ef)
+这段参考： [https://medium.com/@garyalexanderpiong/building-a-working--clone-using-flutter-and-firebase-1c9f9bb960ef](https://medium.com/@garyalexanderpiong/building-a-working-instagram-clone-using-flutter-and-firebase-1c9f9bb960ef)
 
 ## 最后呈现安卓端产品
 

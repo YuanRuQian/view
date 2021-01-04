@@ -1,11 +1,8 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:view/models/userData.dart';
 import 'package:provider/provider.dart';
-import 'package:view/ui/pages/homePage.dart';
 
 class AuthService {
   static final _auth = FirebaseAuth.instance;
@@ -42,8 +39,7 @@ class AuthService {
     try {
       AuthResult result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      Provider.of<UserData>(context, listen: false).currentUserId  = result.user.uid;
-      Navigator.pop(context);
+      print('认证成功 $result');
     } catch (e) {
       print(e);
     }

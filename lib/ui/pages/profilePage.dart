@@ -342,7 +342,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'Instagram',
+          'View',
           style: TextStyle(
             color: Colors.black,
             fontSize: 35.0,

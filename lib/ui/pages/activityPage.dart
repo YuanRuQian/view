@@ -89,7 +89,7 @@ class _ActivityPageState extends State<ActivityPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'Instagram',
+          'View',
           style: TextStyle(
             color: Colors.black,
             fontSize: 35.0,
