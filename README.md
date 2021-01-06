@@ -36,13 +36,7 @@ Firebase
 
 ## 数据模型设计
 
-### 用户
-
-用户ID
-用户名
-头像图片的URL
-邮箱
-简介
+### 用户 User
 
 ```
   final String id;
@@ -50,6 +44,17 @@ Firebase
   final String profileImageUrl;
   final String email;
   final String bio;
+```
+
+### 发帖 Post
+
+```
+  final String id;
+  final String imageUrl;
+  final String caption;
+  final int likeCount;
+  final String authorId;
+  final Timestamp timestamp;
 ```
 
 密码至少分别一位大小字母,特殊字符和数字且至少8位

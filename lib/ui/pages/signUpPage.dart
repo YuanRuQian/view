@@ -12,12 +12,35 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   String _name, _email, _password;
 
+  _showRedirectHint() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          Future.delayed(Duration(seconds: 5), () {
+            Navigator.pop(context);
+          });
+          return AlertDialog(
+            title: Text('欢迎来到 View'),
+            content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text('您已经注册成功'),
+              Text('稍后请重新登录'),
+            ],
+          ),
+        ),
+          );
+        });
+  }
+
   _submit() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       print('创建账号 $_email $_name $_password');
       // Logging in the user w/ Firebase
       AuthService.signUpUser(context, _name, _email, _password);
+      _showRedirectHint();
+      // 返回 Login 页面
     }
   }
 
@@ -49,9 +72,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       child: TextFormField(
                         decoration: InputDecoration(labelText: '用户名'),
-                        validator: (input) => input.trim().isEmpty
-                            ? '请输入一个合法的用户名'
-                            : null,
+                        validator: (input) =>
+                            input.trim().isEmpty ? '请输入一个合法的用户名' : null,
                         onSaved: (input) => _name = input,
                       ),
                     ),
@@ -62,7 +84,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       child: TextFormField(
                         decoration: InputDecoration(labelText: '邮箱'),
-                        validator: (input) => !validateEmail(input) ? '请输入合法的邮箱地址' : null,
+                        validator: (input) =>
+                            !validateEmail(input) ? '请输入合法的邮箱地址' : null,
                         onSaved: (input) => _email = input,
                       ),
                     ),
@@ -73,7 +96,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       child: TextFormField(
                         decoration: InputDecoration(labelText: '密码'),
-                        validator: (input) => !validatePassword(input) ? '密码至少分别一位大小字母,特殊字符和数字且至少8位' : null,
+                        validator: (input) => !validatePassword(input)
+                            ? '密码至少分别一位大小字母,特殊字符和数字且至少8位'
+                            : null,
                         onSaved: (input) => _password = input,
                         obscureText: true,
                       ),
@@ -99,6 +124,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       width: 250.0,
                       child: FlatButton(
                         onPressed: () => Navigator.pop(context),
+                        // 只能从 log in 页面进入 sign up 页面
+                        // 所以 pop 掉 sign up 的 route 就可以回到 log in 页面
                         color: Colors.blue,
                         padding: EdgeInsets.all(10.0),
                         child: Text(
