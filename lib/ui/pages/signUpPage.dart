@@ -12,35 +12,12 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   String _name, _email, _password;
 
-  _showRedirectHint() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          Future.delayed(Duration(seconds: 5), () {
-            Navigator.pop(context);
-          });
-          return AlertDialog(
-            title: Text('欢迎来到 View'),
-            content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text('您已经注册成功'),
-              Text('稍后请重新登录'),
-            ],
-          ),
-        ),
-          );
-        });
-  }
-
   _submit() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       print('创建账号 $_email $_name $_password');
       // Logging in the user w/ Firebase
       AuthService.signUpUser(context, _name, _email, _password);
-      _showRedirectHint();
-      // 返回 Login 页面
     }
   }
 
