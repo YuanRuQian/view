@@ -8,7 +8,6 @@ import 'package:view/ui/pages/commentPage.dart';
 import 'package:view/services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:view/ui/pages/commentPage.dart';
 
 class ActivityPage extends StatefulWidget {
   final String currentUserId;
