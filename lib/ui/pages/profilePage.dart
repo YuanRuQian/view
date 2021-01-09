@@ -134,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
               color: Colors.blue,
               textColor: Colors.white,
               child: Text(
-                'Edit Profile',
+                '编辑',
                 style: TextStyle(fontSize: 18.0),
               ),
             ),
@@ -146,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
               color: _isFollowing ? Colors.grey[200] : Colors.blue,
               textColor: _isFollowing ? Colors.black : Colors.white,
               child: Text(
-                _isFollowing ? 'Unfollow' : 'Follow',
+                _isFollowing ? '取消关注' : '关注',
                 style: TextStyle(fontSize: 18.0),
               ),
             ),
@@ -183,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             Text(
-                              'posts',
+                              '帖子',
                               style: TextStyle(color: Colors.black54),
                             ),
                           ],
@@ -198,7 +198,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             Text(
-                              'followers',
+                              '被关注',
                               style: TextStyle(color: Colors.black54),
                             ),
                           ],
@@ -213,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             Text(
-                              'following',
+                              '关注中',
                               style: TextStyle(color: Colors.black54),
                             ),
                           ],
