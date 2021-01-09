@@ -1,3 +1,4 @@
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,8 +15,21 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  TextEditingController _searchController = TextEditingController();
+  final _searchQuery = new TextEditingController();
+  Timer _debounce;
   Future<QuerySnapshot> _users;
+
+  _onSearchChanged() {
+    String input = _searchQuery.text;
+    if (_debounce?.isActive ?? false) _debounce.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      if (input.isNotEmpty) {
+        setState(() {
+          _users = DatabaseService.searchUsers(input);
+        });
+      }
+    });
+  }
 
   _buildUserTile(User user) {
     return ListTile(
@@ -39,11 +53,16 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   _clearSearch() {
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _searchController.clear());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _searchQuery.clear());
     setState(() {
       _users = null;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _searchQuery.addListener(_onSearchChanged);
   }
 
   @override
@@ -52,7 +71,7 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: TextField(
-          controller: _searchController,
+          controller: _searchQuery,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 15.0),
             border: InputBorder.none,
@@ -105,5 +124,13 @@ class _SearchPageState extends State<SearchPage> {
               },
             ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchQuery.removeListener(_onSearchChanged);
+    _searchQuery.dispose();
+    _debounce?.cancel();
+    super.dispose();
   }
 }
