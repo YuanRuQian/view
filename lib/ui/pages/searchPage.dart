@@ -56,7 +56,7 @@ class _SearchPageState extends State<SearchPage> {
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 15.0),
             border: InputBorder.none,
-            hintText: 'Search',
+            hintText: '查询',
             prefixIcon: Icon(
               Icons.search,
               size: 30.0,
@@ -80,7 +80,7 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: _users == null
           ? Center(
-              child: Text('Search for a user'),
+              child: Text('查找用户'),
             )
           : FutureBuilder(
               future: _users,
@@ -92,7 +92,7 @@ class _SearchPageState extends State<SearchPage> {
                 }
                 if (snapshot.data.documents.length == 0) {
                   return Center(
-                    child: Text('No users found! Please try again.'),
+                    child: Text('Oops, 没有找到相关用户......'),
                   );
                 }
                 return ListView.builder(
