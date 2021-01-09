@@ -52,12 +52,12 @@ class _AddPostPageState extends State<AddPostPage> {
               onPressed: () => _handleImage(ImageSource.camera),
             ),
             SimpleDialogOption(
-              child: Text('Choose From Gallery'),
+              child: Text('从相册上传'),
               onPressed: () => _handleImage(ImageSource.gallery),
             ),
             SimpleDialogOption(
               child: Text(
-                'Cancel',
+                '取消',
                 style: TextStyle(
                   color: Colors.redAccent,
                 ),
