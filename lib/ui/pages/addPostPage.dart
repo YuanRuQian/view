@@ -45,10 +45,10 @@ class _AddPostPageState extends State<AddPostPage> {
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: Text('Add Photo'),
+          title: Text('上传照片'),
           children: <Widget>[
             SimpleDialogOption(
-              child: Text('Take Photo'),
+              child: Text('拍照'),
               onPressed: () => _handleImage(ImageSource.camera),
             ),
             SimpleDialogOption(
@@ -106,7 +106,7 @@ class _AddPostPageState extends State<AddPostPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'Create Post',
+          '发帖',
           style: TextStyle(
             color: Colors.black,
           ),
@@ -159,7 +159,7 @@ class _AddPostPageState extends State<AddPostPage> {
                     controller: _captionController,
                     style: TextStyle(fontSize: 18.0),
                     decoration: InputDecoration(
-                      labelText: 'Caption',
+                      labelText: '说点什么吧',
                     ),
                     onChanged: (input) => _caption = input,
                   ),
