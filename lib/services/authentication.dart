@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +21,10 @@ class AuthService {
           'name': name,
           'email': email,
           'profileImageUrl': '',
-          'password': password
         });
-        Provider.of<UserData>(context).currentUserId = signedInUser.uid;
+        Provider.of<UserData>(context, listen: false).currentUserId = signedInUser.uid;
+        print('注册成功 $signedInUser');
+        Navigator.pop(context);
       }
     } catch (e) {
       print(e);

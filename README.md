@@ -60,5 +60,5 @@ Firebase
 密码至少分别一位大小字母,特殊字符和数字且至少8位
 
 测试账号：
-email :  admin@view.com
+email :  seulgi@view.com
 password : @nxJ]D;6
