@@ -98,7 +98,7 @@ class _editProfilePageState extends State<EditProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'Edit Profile',
+          '编辑',
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -126,7 +126,7 @@ class _editProfilePageState extends State<EditProfilePage> {
                     FlatButton(
                       onPressed: _handleImageFromGallery,
                       child: Text(
-                        'Change Profile Image',
+                        '更改头像',
                         style: TextStyle(
                             color: Theme.of(context).accentColor,
                             fontSize: 16.0),
@@ -140,10 +140,10 @@ class _editProfilePageState extends State<EditProfilePage> {
                           Icons.person,
                           size: 30.0,
                         ),
-                        labelText: 'Name',
+                        labelText: '用户名',
                       ),
                       validator: (input) => input.trim().length < 1
-                          ? 'Please enter a valid name'
+                          ? '用户名不可为空'
                           : null,
                       onSaved: (input) => _name = input,
                     ),
@@ -155,10 +155,10 @@ class _editProfilePageState extends State<EditProfilePage> {
                           Icons.book,
                           size: 30.0,
                         ),
-                        labelText: 'Bio',
+                        labelText: '简介',
                       ),
                       validator: (input) => input.trim().length > 150
-                          ? 'Please enter a bio less than 150 characters'
+                          ? '简介需要小于150字'
                           : null,
                       onSaved: (input) => _bio = input,
                     ),
@@ -171,7 +171,7 @@ class _editProfilePageState extends State<EditProfilePage> {
                         color: Colors.blue,
                         textColor: Colors.white,
                         child: Text(
-                          'Save Profile',
+                          '保存',
                           style: TextStyle(fontSize: 18.0),
                         ),
                       ),
