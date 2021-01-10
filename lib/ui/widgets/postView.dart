@@ -177,7 +177,7 @@ class _PostViewState extends State<PostView> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.0),
                 child: Text(
-                  '${_likeCount.toString()} likes',
+                  '${_likeCount.toString()} 个赞',
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,

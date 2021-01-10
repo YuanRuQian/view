@@ -50,8 +50,8 @@ class _ActivityPageState extends State<ActivityPage> {
                 : CachedNetworkImageProvider(user.profileImageUrl),
           ),
           title: activity.comment != null
-              ? Text('${user.name} commented: "${activity.comment}"')
-              : Text('${user.name} liked your post'),
+              ? Text('${user.name} 评论: "${activity.comment}"')
+              : Text('${user.name} 觉得很赞'),
           subtitle: Text(
             DateFormat.yMd().add_jm().format(activity.timestamp.toDate()),
           ),
