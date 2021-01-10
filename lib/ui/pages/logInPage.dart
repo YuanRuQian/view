@@ -17,12 +17,9 @@ class _LoginPageState extends State<LogInPage> {
       _formKey.currentState.save();
       // Logging in the user w/ Firebase
       print('登录: $_email $_password');
-      AuthService.login(context,_email, _password);
+      AuthService.login(context, _email, _password);
     }
   }
-
- 
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +59,9 @@ class _LoginPageState extends State<LogInPage> {
                     ),
                     child: TextFormField(
                       decoration: InputDecoration(labelText: '密码'),
-                      validator: (input) => 
-                            !validatePassword(input) ? '密码至少分别一位大小字母,特殊字符和数字且至少8位' : null,
+                      validator: (input) => !validatePassword(input)
+                          ? '密码至少分别一位大小字母,特殊字符和数字且至少8位'
+                          : null,
                       onSaved: (input) => _password = input,
                       obscureText: true,
                     ),
