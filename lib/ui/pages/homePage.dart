@@ -11,10 +11,10 @@ import 'package:provider/provider.dart';
 class HomePage extends StatefulWidget {
   static final String id = 'home_page';
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
   int _currentTab = 0;
   PageController _pageController;
 
