@@ -53,7 +53,7 @@ class _PostViewState extends State<PostView> {
 
   _likePost() {
     if (_isLiked) {
-      // Unlike Post
+      // 取消赞
       DatabaseService.unlikePost(
           currentUserId: widget.currentUserId, post: widget.post);
       setState(() {
@@ -61,7 +61,7 @@ class _PostViewState extends State<PostView> {
         _likeCount = _likeCount - 1;
       });
     } else {
-      // Like Post
+      // 点赞
       DatabaseService.likePost(
           currentUserId: widget.currentUserId, post: widget.post);
       setState(() {

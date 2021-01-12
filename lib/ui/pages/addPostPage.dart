@@ -82,7 +82,7 @@ class _AddPostPageState extends State<AddPostPage> {
         imageUrl: imageUrl,
         caption: _caption,
         likeCount: 0,
-        authorId: Provider.of<UserData>(context).currentUserId,
+        authorId: Provider.of<UserData>(context, listen: false).currentUserId,
         timestamp: Timestamp.fromDate(DateTime.now()),
       );
       DatabaseService.createPost(post);
