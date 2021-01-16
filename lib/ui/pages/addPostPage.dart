@@ -9,6 +9,8 @@ import 'package:view/services/storage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:photofilters/photofilters.dart';
+import 'package:image/image.dart' as imageLib;
 
 class AddPostPage extends StatefulWidget {
   @override
@@ -20,12 +22,43 @@ class _AddPostPageState extends State<AddPostPage> {
   TextEditingController _captionController = TextEditingController();
   String _caption = '';
   bool _isLoading = false;
+  String _fileName = '';
 
   _handleImage(ImageSource source) async {
     Navigator.pop(context);
     File imageFile = await ImagePicker.pickImage(source: source);
+    _fileName = imageFile.path;
+    RegExp exp = RegExp(r'image_picker(.*).jpg');
+    _fileName = exp.firstMatch(_fileName)[0];
+    print('选中的文件名字是' + _fileName);
     if (imageFile != null) {
       imageFile = await _cropImage(imageFile);
+      var image = imageLib.decodeImage(imageFile.readAsBytesSync());
+      Map map = await Navigator.push(
+        context,
+        new MaterialPageRoute(
+          builder: (context) => new PhotoFilterSelector(
+            appBarColor: Colors.white,
+            title: Text(
+              '选个喜欢的滤镜吧!',
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            image: image,
+            filters: presetFiltersList,
+            filename: _fileName,
+            loader: Center(child: CircularProgressIndicator()),
+            fit: BoxFit.contain,
+          ),
+        ),
+      );
+      if (map != null && map.containsKey('image_filtered')) {
+        setState(() {
+          imageFile = map['image_filtered'];
+        });
+        print(imageFile.path);
+      }
       setState(() {
         _image = imageFile;
       });
