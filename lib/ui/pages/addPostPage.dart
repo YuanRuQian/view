@@ -40,7 +40,7 @@ class _AddPostPageState extends State<AddPostPage> {
           builder: (context) => new PhotoFilterSelector(
             appBarColor: Colors.white,
             title: Text(
-              '选个喜欢的滤镜吧!',
+              '选个喜欢的滤镜吧',
               style: TextStyle(
                 color: Colors.black,
               ),
