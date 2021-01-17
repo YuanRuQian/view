@@ -13,10 +13,10 @@ class EditProfilePage extends StatefulWidget {
   EditProfilePage({this.user, this.updateUser});
 
   @override
-  _editProfilePageState createState() => _editProfilePageState();
+  _EditProfilePageState createState() => _EditProfilePageState();
 }
 
-class _editProfilePageState extends State<EditProfilePage> {
+class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
   File _profileImage;
   String _name = '';
