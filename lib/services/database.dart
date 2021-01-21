@@ -30,13 +30,13 @@ class DatabaseService {
   }
 
   static void followUser({String currentUserId, String userId}) {
-    // Add user to current user's following collection
+    // 当前用户订阅某人
     followingRef
         .document(currentUserId)
         .collection('userFollowing')
         .document(userId)
         .setData({});
-    // Add current user to user's followers collection
+    // 某人被当前用户订阅
     followersRef
         .document(userId)
         .collection('userFollowers')
@@ -45,7 +45,7 @@ class DatabaseService {
   }
 
   static void unfollowUser({String currentUserId, String userId}) {
-    // Remove user from current user's following collection
+    // 当前用户取关某人
     followingRef
         .document(currentUserId)
         .collection('userFollowing')
@@ -56,7 +56,7 @@ class DatabaseService {
         doc.reference.delete();
       }
     });
-    // Remove current user from user's followers collection
+    // 某人用户中移除当前用户
     followersRef
         .document(userId)
         .collection('userFollowers')
