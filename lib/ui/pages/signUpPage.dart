@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:view/services/authentication.dart';
+import 'package:view/ui/widgets/viewTitle.dart';
 import 'package:view/utilities/tools.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -31,12 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(
-                'View',
-                style: TextStyle(
-                  fontSize: 50.0,
-                ),
-              ),
+              ViewTitle(),
               Form(
                 key: _formKey,
                 child: Column(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:view/services/authentication.dart';
 import 'package:view/ui/pages/signUpPage.dart';
 import 'package:view/utilities/tools.dart';
+import 'package:view/ui/widgets/viewTitle.dart';
 
 class LogInPage extends StatefulWidget {
   static final String id = 'log_in_page';
@@ -29,12 +30,7 @@ class _LoginPageState extends State<LogInPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'View',
-              style: TextStyle(
-                fontSize: 50.0,
-              ),
-            ),
+            ViewTitle(),
             Form(
               key: _formKey,
               child: Column(
