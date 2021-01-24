@@ -8,6 +8,7 @@ class ViewTitle extends StatelessWidget {
               'View',
               style: TextStyle(
                 fontSize: 50.0,
+                fontFamily: 'PermanentMarker'
               ),
             ),
     );
