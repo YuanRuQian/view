@@ -63,6 +63,13 @@ dependencies:
 
   flutter_launcher_icons: ^0.8.1
 
+flutter_icons:
+  #  image_path: "assets/images/icon-128x128.png"
+  image_path_android: "assets/images/view_app_logo.png"
+  image_path_ios: "assets/images/view_app_logo.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
