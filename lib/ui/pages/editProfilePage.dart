@@ -31,7 +31,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   _handleImageFromGallery() async {
-    File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    PickedFile selectedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    File imageFile = File(selectedFile.path);
     if (imageFile != null) {
       setState(() {
         _profileImage = imageFile;
@@ -142,9 +144,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         labelText: '用户名',
                       ),
-                      validator: (input) => input.trim().length < 1
-                          ? '用户名不可为空'
-                          : null,
+                      validator: (input) =>
+                          input.trim().length < 1 ? '用户名不可为空' : null,
                       onSaved: (input) => _name = input,
                     ),
                     TextFormField(
@@ -157,9 +158,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         labelText: '简介',
                       ),
-                      validator: (input) => input.trim().length > 150
-                          ? '简介需要小于150字'
-                          : null,
+                      validator: (input) =>
+                          input.trim().length > 150 ? '简介需要小于150字' : null,
                       onSaved: (input) => _bio = input,
                     ),
                     Container(

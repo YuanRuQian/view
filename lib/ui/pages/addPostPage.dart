@@ -26,7 +26,8 @@ class _AddPostPageState extends State<AddPostPage> {
 
   _handleImage(ImageSource source) async {
     Navigator.pop(context);
-    File imageFile = await ImagePicker.pickImage(source: source);
+    PickedFile selectedFile = await ImagePicker().getImage(source: source);
+    File imageFile = File(selectedFile.path);
     _fileName = imageFile.path;
     RegExp exp = RegExp(r'image_picker(.*).jpg');
     _fileName = exp.firstMatch(_fileName)[0];
