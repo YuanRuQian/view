@@ -3,6 +3,7 @@ import 'package:view/services/database.dart';
 import 'package:view/models/userModel.dart';
 import 'package:view/models/postModel.dart';
 import 'package:view/ui/widgets/postView.dart';
+import 'package:view/ui/widgets/viewTitle.dart';
 
 class FeedPage extends StatefulWidget {
   static final String id = 'feed_screen';
@@ -20,14 +21,9 @@ class _FeedPageState extends State<FeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text(
-          'View',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 35.0,
-          ),
-        ),
+        title: ViewPageTitle(),
       ),
       body: StreamBuilder(
         stream: DatabaseService.getFeedPosts(widget.currentUserId),

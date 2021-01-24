@@ -30,7 +30,7 @@ class _LoginPageState extends State<LogInPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            ViewTitle(),
+            ViewAppTitle(),
             Form(
               key: _formKey,
               child: Column(

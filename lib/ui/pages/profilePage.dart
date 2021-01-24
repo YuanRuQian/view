@@ -9,6 +9,7 @@ import 'package:view/ui/pages/commentPage.dart';
 import 'package:view/ui/widgets/postView.dart';
 import 'package:view/ui/pages/editProfilePage.dart';
 import 'package:view/services/authentication.dart';
+import 'package:view/ui/widgets/viewTitle.dart';
 import 'package:view/utilities/constants.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -340,14 +341,9 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text(
-          'View',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 35.0,
-          ),
-        ),
+        title: ViewPageTitle(),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.exit_to_app),

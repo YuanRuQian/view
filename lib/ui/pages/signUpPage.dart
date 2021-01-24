@@ -32,7 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ViewTitle(),
+              ViewAppTitle(),
               Form(
                 key: _formKey,
                 child: Column(

@@ -8,6 +8,7 @@ import 'package:view/ui/pages/commentPage.dart';
 import 'package:view/services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:view/ui/widgets/viewTitle.dart';
 
 class ActivityPage extends StatefulWidget {
   final String currentUserId;
@@ -86,14 +87,9 @@ class _ActivityPageState extends State<ActivityPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text(
-          'View',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 35.0,
-          ),
-        ),
+        title: ViewPageTitle(),
       ),
       body: RefreshIndicator(
         onRefresh: () => _setupActivities(),
