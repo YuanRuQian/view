@@ -99,7 +99,19 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: _users == null
           ? Center(
-              child: Text('查找用户'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('查找用户',
+                      style: TextStyle(fontSize: 20.0, color: Colors.black)),
+                  Image.asset(
+                    'assets/images/search_user.jpg',
+                    height: 250.0,
+                    width: 250.0,
+                  ),
+                ],
+              ),
             )
           : FutureBuilder(
               future: _users,

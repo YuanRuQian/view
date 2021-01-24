@@ -163,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: <Widget>[
               CircleAvatar(
                 radius: 50.0,
-                backgroundColor: Colors.grey,
+                backgroundColor: Colors.white,
                 backgroundImage: user.profileImageUrl.isEmpty
                     ? AssetImage('assets/images/user_placeholder.jpg')
                     : CachedNetworkImageProvider(user.profileImageUrl),
