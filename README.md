@@ -1,6 +1,6 @@
 # 毕业设计 ： View, 一个基于 flutter 的图片分享社交 APP
 
-![view](assets/images/view_app_logo.png)
+![view](icon/logo.png)
 
 ## 数据库选择
 
