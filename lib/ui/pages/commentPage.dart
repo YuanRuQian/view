@@ -123,7 +123,7 @@ class _CommentPageState extends State<CommentPage> {
           Padding(
             padding: EdgeInsets.all(12.0),
             child: Text(
-              '${widget.likeCount} likes',
+              '${widget.likeCount} 个赞',
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.w600,
