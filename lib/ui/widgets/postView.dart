@@ -140,7 +140,7 @@ class _PostViewState extends State<PostView> {
                             Icons.favorite,
                             color: Colors.red,
                           )
-                        : Icon(Icons.favorite_border),
+                        : Icon(Icons.favorite),
                     iconSize: 30.0,
                     onPressed: _likePost,
                   ),
