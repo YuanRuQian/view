@@ -18,6 +18,11 @@ class _SearchPageState extends State<SearchPage> {
   final _searchQuery = new TextEditingController();
   Timer _debounce;
   Future<QuerySnapshot> _users;
+  String _currentInput;
+
+  _userNameIncludesInput(String userName) {
+    return userName.indexOf(_currentInput) != -1;
+  }
 
   _onSearchChanged() {
     String input = _searchQuery.text;
@@ -26,6 +31,12 @@ class _SearchPageState extends State<SearchPage> {
       if (input.isNotEmpty) {
         setState(() {
           _users = DatabaseService.searchUsers(input);
+          _currentInput = input;
+        });
+      } else {
+        setState(() {
+          _users = null;
+          _currentInput = null;
         });
       }
     });
@@ -56,6 +67,7 @@ class _SearchPageState extends State<SearchPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _searchQuery.clear());
     setState(() {
       _users = null;
+      _currentInput = null;
     });
   }
 
@@ -126,11 +138,21 @@ class _SearchPageState extends State<SearchPage> {
                     child: Text('Oops, 没有找到相关用户......'),
                   );
                 }
+                var data = snapshot.data.documents;
+                var docs = [];
+                for (int i = 0; i < data.length; i++) {
+                  User user = User.fromDoc(data[i]);
+                  if (_userNameIncludesInput(user.name)) {
+                    docs.add(data[i]);
+                  }
+                }
                 return ListView.builder(
-                  itemCount: snapshot.data.documents.length,
+                  itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    User user = User.fromDoc(snapshot.data.documents[index]);
-                    return _buildUserTile(user);
+                    User user = User.fromDoc(data[index]);
+                    return _userNameIncludesInput(user.name)
+                        ? _buildUserTile(user)
+                        : SizedBox.shrink();
                   },
                 );
               },
