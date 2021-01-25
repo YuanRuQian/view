@@ -4,6 +4,7 @@ import 'package:view/models/postModel.dart';
 import 'package:view/models/userModel.dart';
 import 'package:view/utilities/constants.dart';
 
+
 class DatabaseService {
   static void updateUser(User user) {
     usersRef.document(user.id).updateData({
@@ -30,13 +31,13 @@ class DatabaseService {
   }
 
   static void followUser({String currentUserId, String userId}) {
-    // 当前用户订阅某人
+    // Add user to current user's following collection
     followingRef
         .document(currentUserId)
         .collection('userFollowing')
         .document(userId)
         .setData({});
-    // 某人被当前用户订阅
+    // Add current user to user's followers collection
     followersRef
         .document(userId)
         .collection('userFollowers')
@@ -45,7 +46,7 @@ class DatabaseService {
   }
 
   static void unfollowUser({String currentUserId, String userId}) {
-    // 当前用户取关某人
+    // Remove user from current user's following collection
     followingRef
         .document(currentUserId)
         .collection('userFollowing')
@@ -56,7 +57,7 @@ class DatabaseService {
         doc.reference.delete();
       }
     });
-    // 某人用户中移除当前用户
+    // Remove current user from user's followers collection
     followersRef
         .document(userId)
         .collection('userFollowers')
