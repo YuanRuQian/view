@@ -4,7 +4,6 @@ import 'package:view/models/postModel.dart';
 import 'package:view/models/userModel.dart';
 import 'package:view/utilities/constants.dart';
 
-
 class DatabaseService {
   static void updateUser(User user) {
     usersRef.document(user.id).updateData({
@@ -31,13 +30,11 @@ class DatabaseService {
   }
 
   static void followUser({String currentUserId, String userId}) {
-    // Add user to current user's following collection
     followingRef
         .document(currentUserId)
         .collection('userFollowing')
         .document(userId)
         .setData({});
-    // Add current user to user's followers collection
     followersRef
         .document(userId)
         .collection('userFollowers')
@@ -46,7 +43,6 @@ class DatabaseService {
   }
 
   static void unfollowUser({String currentUserId, String userId}) {
-    // Remove user from current user's following collection
     followingRef
         .document(currentUserId)
         .collection('userFollowing')
@@ -57,7 +53,6 @@ class DatabaseService {
         doc.reference.delete();
       }
     });
-    // Remove current user from user's followers collection
     followersRef
         .document(userId)
         .collection('userFollowers')
@@ -161,6 +156,36 @@ class DatabaseService {
         }
       });
     });
+  }
+
+  static deletePostData(Post post) {
+    commentsRef.document(post.id).get().then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    // 先删除所有评论
+    String imageUrl = post.imageUrl;
+    RegExp exp = RegExp(r'post_(.*).jpg');
+    imageUrl = exp.firstMatch(imageUrl)[0];
+    postsRef
+        .document(post.authorId)
+        .collection('userPosts')
+        .document(post.id)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    // 再删除这个帖子
+    var desertRef = storageRef.child('images/$imageUrl');
+    desertRef.delete().then((img) {
+      print('帖子成功删除');
+    }).catchError(() {
+      print('帖子删除失败');
+    });
+    // 删除帖子的图片
   }
 
   static Future<bool> didLikePost({String currentUserId, Post post}) async {
