@@ -22,7 +22,6 @@ class PostView extends StatefulWidget {
 class _PostViewState extends State<PostView> {
   int _likeCount = 0;
   bool _isLiked = false;
-  bool _heartAnimation = false;
 
   @override
   void initState() {
@@ -65,14 +64,8 @@ class _PostViewState extends State<PostView> {
       DatabaseService.likePost(
           currentUserId: widget.currentUserId, post: widget.post);
       setState(() {
-        _heartAnimation = true;
         _isLiked = true;
         _likeCount = _likeCount + 1;
-      });
-      Timer(Duration(milliseconds: 350), () {
-        setState(() {
-          _heartAnimation = false;
-        });
       });
     }
   }
@@ -132,13 +125,6 @@ class _PostViewState extends State<PostView> {
                   ),
                 ),
               ),
-              _heartAnimation
-                  ? Animator(
-                      duration: Duration(milliseconds: 300),
-                      tween: Tween(begin: 0.5, end: 1.4),
-                      curve: Curves.elasticOut,
-                    )
-                  : SizedBox.shrink(),
             ],
           ),
         ),
