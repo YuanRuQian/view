@@ -125,7 +125,6 @@ class DatabaseService {
   }
 
   static void likePost({String currentUserId, Post post}) {
-    print('like post :' + currentUserId + ',' + post.id);
     DocumentReference postRef = postsRef
         .document(post.authorId)
         .collection('userPosts')

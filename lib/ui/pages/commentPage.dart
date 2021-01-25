@@ -80,7 +80,7 @@ class _CommentPageState extends State<CommentPage> {
                   });
                 },
                 decoration:
-                    InputDecoration.collapsed(hintText: 'Write a comment...'),
+                    InputDecoration.collapsed(hintText: '说点什么吧'),
               ),
             ),
             Container(
@@ -114,22 +114,13 @@ class _CommentPageState extends State<CommentPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'Comments',
+          '评论',
           style: TextStyle(color: Colors.black),
         ),
       ),
       body: Column(
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Text(
-              '${widget.likeCount} 个赞',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
+          _buildCommentTF(),
           StreamBuilder(
             stream: commentsRef
                 .document(widget.post.id)
@@ -155,7 +146,6 @@ class _CommentPageState extends State<CommentPage> {
             },
           ),
           Divider(height: 1.0),
-          _buildCommentTF(),
         ],
       ),
     );
