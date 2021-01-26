@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:view/models/activityModel.dart';
 import 'package:view/models/postModel.dart';
 import 'package:view/models/userModel.dart';
@@ -158,7 +159,30 @@ class DatabaseService {
     });
   }
 
-  static deletePostData(Post post) {
+  static _showMessage(BuildContext context, String msg, bool errorOccurred) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        if (errorOccurred) {
+          return AlertDialog(
+              title: Text('操作失败!'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('以下为返回信息:'),
+                    Text(msg),
+                  ],
+                ),
+              ));
+        } else {
+          return AlertDialog(title: Text('删除成功!'));
+        }
+      },
+    );
+  }
+
+  static deletePostData(BuildContext context, Post post) {
     commentsRef.document(post.id).get().then((doc) {
       if (doc.exists) {
         doc.reference.delete();
@@ -179,11 +203,12 @@ class DatabaseService {
       }
     });
     // 再删除这个帖子
-    var desertRef = storageRef.child('images/$imageUrl');
-    desertRef.delete().then((img) {
-      print('帖子成功删除');
-    }).catchError(() {
-      print('帖子删除失败');
+    var desertRef = storageRef.child('images/posts/$imageUrl');
+    print('---删除图片: $imageUrl---');
+    desertRef.delete().then((msg) {
+      _showMessage(context, '', false);
+    }).catchError((err) {
+      _showMessage(context, err.toString(), true);
     });
     // 删除帖子的图片
   }
