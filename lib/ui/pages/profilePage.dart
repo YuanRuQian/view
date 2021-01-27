@@ -345,7 +345,7 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Colors.white,
         title: ViewPageTitle(),
         actions: <Widget>[
-          widget.currentUserId == _profileUser.id ? IconButton(
+          widget.currentUserId == _profileUser?.id ? IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: AuthService.logout,
           ) :
