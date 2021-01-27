@@ -119,7 +119,7 @@ class _AddPostPageState extends State<AddPostPage> {
         authorId: Provider.of<UserData>(context, listen: false).currentUserId,
         timestamp: Timestamp.fromDate(DateTime.now()),
       );
-      DatabaseService.createPost(post);
+      DatabaseService.createPost(context,post);
 
       // Reset data
       _captionController.clear();

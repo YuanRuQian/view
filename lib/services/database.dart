@@ -20,13 +20,17 @@ class DatabaseService {
     return users;
   }
 
-  static void createPost(Post post) {
+  static void createPost(BuildContext context, Post post) {
     postsRef.document(post.authorId).collection('userPosts').add({
       'imageUrl': post.imageUrl,
       'caption': post.caption,
       'likeCount': post.likeCount,
       'authorId': post.authorId,
       'timestamp': post.timestamp,
+    }).then((doc) {
+      _showMessage(context, '发布成功', false);
+    }).catchError((err) {
+      _showMessage(context, err.toString(), true);
     });
   }
 
@@ -176,7 +180,7 @@ class DatabaseService {
                 ),
               ));
         } else {
-          return AlertDialog(title: Text('删除成功!'));
+          return AlertDialog(title: Text(msg));
         }
       },
     );
@@ -206,7 +210,7 @@ class DatabaseService {
     var desertRef = storageRef.child('images/posts/$imageUrl');
     print('---删除图片: $imageUrl---');
     desertRef.delete().then((msg) {
-      _showMessage(context, '', false);
+      _showMessage(context, '删除成功', false);
     }).catchError((err) {
       _showMessage(context, err.toString(), true);
     });

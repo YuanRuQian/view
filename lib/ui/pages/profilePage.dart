@@ -66,6 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
   _setupPosts() async {
     print('获取 posts 数据中...');
     List<Post> posts = await DatabaseService.getUserPosts(widget.userId);
+    print('现在一共有 ${posts.length} 个 post');
     setState(() {
       _posts = posts;
     });
@@ -324,13 +325,11 @@ class _ProfilePageState extends State<ProfilePage> {
       // Column
       List<PostView> postViews = [];
       _posts.forEach((post) {
-        postViews.add(
-          PostView(
-              currentUserId: widget.currentUserId,
-              post: post,
-              author: _profileUser,
-              parentCall: _setupPosts()),
-        );
+        postViews.add(PostView(
+            currentUserId: widget.currentUserId,
+            post: post,
+            author: _profileUser,
+            parentCall: _setupPosts));
       });
       return Column(children: postViews);
     }
