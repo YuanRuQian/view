@@ -345,10 +345,11 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Colors.white,
         title: ViewPageTitle(),
         actions: <Widget>[
-          IconButton(
+          widget.currentUserId == _profileUser.id ? IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: AuthService.logout,
-          ),
+          ) :
+          SizedBox.shrink(),
         ],
       ),
       body: FutureBuilder(
