@@ -89,3 +89,4 @@ app.*.map.json
 .metadata
 .firebaserc
 firebase.json 
+*.json
