@@ -22,7 +22,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   bool _isFollowing = false;
   int _followerCount = 0;
   int _followingCount = 0;
@@ -65,6 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _setupPosts() async {
+    print('获取 posts 数据中...');
     List<Post> posts = await DatabaseService.getUserPosts(widget.userId);
     setState(() {
       _posts = posts;
@@ -326,10 +326,10 @@ class _ProfilePageState extends State<ProfilePage> {
       _posts.forEach((post) {
         postViews.add(
           PostView(
-            currentUserId: widget.currentUserId,
-            post: post,
-            author: _profileUser,
-          ),
+              currentUserId: widget.currentUserId,
+              post: post,
+              author: _profileUser,
+              parentCall: _setupPosts()),
         );
       });
       return Column(children: postViews);
@@ -345,11 +345,12 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Colors.white,
         title: ViewPageTitle(),
         actions: <Widget>[
-          widget.currentUserId == _profileUser?.id ? IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: AuthService.logout,
-          ) :
-          SizedBox.shrink(),
+          widget.currentUserId == _profileUser?.id
+              ? IconButton(
+                  icon: Icon(Icons.exit_to_app),
+                  onPressed: AuthService.logout,
+                )
+              : SizedBox.shrink(),
         ],
       ),
       body: FutureBuilder(

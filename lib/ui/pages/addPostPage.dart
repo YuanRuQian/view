@@ -146,10 +146,12 @@ class _AddPostPageState extends State<AddPostPage> {
           ),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: _submit,
-          ),
+          _isLoading
+              ? SizedBox.shrink()
+              : IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: _submit,
+                ),
         ],
       ),
       body: GestureDetector(
@@ -159,44 +161,43 @@ class _AddPostPageState extends State<AddPostPage> {
             height: height,
             child: Column(
               children: <Widget>[
-                _isLoading
-                    ? Padding(
-                        padding: EdgeInsets.only(bottom: 10.0),
-                        child: LinearProgressIndicator(
-                          backgroundColor: Colors.blue[200],
-                          valueColor: AlwaysStoppedAnimation(Colors.blue),
-                        ),
-                      )
-                    : SizedBox.shrink(),
                 GestureDetector(
                   onTap: _showSelectImageDialog,
                   child: Container(
-                    height: width,
-                    width: width,
-                    color: Colors.grey[300],
-                    child: _image == null
-                        ? Icon(
-                            Icons.add_a_photo,
-                            color: Colors.white70,
-                            size: 150.0,
-                          )
-                        : Image(
-                            image: FileImage(_image),
-                            fit: BoxFit.cover,
-                          ),
-                  ),
+                      height: width,
+                      width: width,
+                      color: Colors.grey[300],
+                      child: _isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : (_image == null
+                              ? Icon(
+                                  Icons.add_a_photo,
+                                  color: Colors.white70,
+                                  size: 150.0,
+                                )
+                              : Image(
+                                  image: FileImage(_image),
+                                  fit: BoxFit.cover,
+                                ))),
                 ),
                 SizedBox(height: 20.0),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.0),
-                  child: TextField(
-                    controller: _captionController,
-                    style: TextStyle(fontSize: 18.0),
-                    decoration: InputDecoration(
-                      labelText: '说点什么吧',
-                    ),
-                    onChanged: (input) => _caption = input,
-                  ),
+                  child: _isLoading
+                      ? Text(
+                          '发布中......请稍等......',
+                          style: TextStyle(fontSize: 20.0),
+                        )
+                      : TextField(
+                          controller: _captionController,
+                          style: TextStyle(fontSize: 18.0),
+                          decoration: InputDecoration(
+                            labelText: '说点什么吧',
+                          ),
+                          onChanged: (input) => _caption = input,
+                        ),
                 ),
               ],
             ),

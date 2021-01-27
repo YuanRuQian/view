@@ -10,8 +10,9 @@ class PostView extends StatefulWidget {
   final String currentUserId;
   final Post post;
   final User author;
+  final parentCall;
 
-  PostView({this.currentUserId, this.post, this.author});
+  PostView({this.currentUserId, this.post, this.author, this.parentCall});
 
   @override
   _PostViewState createState() => _PostViewState();
@@ -20,7 +21,6 @@ class PostView extends StatefulWidget {
 class _PostViewState extends State<PostView> {
   int _likeCount = 0;
   bool _isLiked = false;
-  bool _showPost = true;
 
   @override
   void initState() {
@@ -71,153 +71,147 @@ class _PostViewState extends State<PostView> {
 
   @override
   Widget build(BuildContext context) {
-    return _showPost
-        ? Column(
+    return Column(
+      children: <Widget>[
+        GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ProfilePage(
+                currentUserId: widget.currentUserId,
+                userId: widget.post.authorId,
+              ),
+            ),
+          ),
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 10.0,
+            ),
+            child: Row(
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 25.0,
+                  backgroundColor: Colors.grey,
+                  backgroundImage: widget.author.profileImageUrl.isEmpty
+                      ? AssetImage('assets/images/user_placeholder.jpg')
+                      : CachedNetworkImageProvider(
+                          widget.author.profileImageUrl),
+                ),
+                SizedBox(width: 8.0),
+                Text(
+                  widget.author.name,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(width: 200.0),
+                widget.currentUserId == widget.post.authorId
+                    ? IconButton(
+                        icon: Icon(Icons.delete_forever),
+                        iconSize: 30.0,
+                        onPressed: () {
+                          DatabaseService.deletePostData(context, widget.post);
+                          widget.parentCall();
+                        },
+                      )
+                    : SizedBox.shrink()
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onDoubleTap: _likePost,
+          child: Stack(
+            alignment: Alignment.center,
             children: <Widget>[
-              GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => ProfilePage(
-                      currentUserId: widget.currentUserId,
-                      userId: widget.post.authorId,
-                    ),
+              Container(
+                height: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: CachedNetworkImageProvider(widget.post.imageUrl),
+                    fit: BoxFit.cover,
                   ),
-                ),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 10.0,
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 25.0,
-                        backgroundColor: Colors.grey,
-                        backgroundImage: widget.author.profileImageUrl.isEmpty
-                            ? AssetImage('assets/images/user_placeholder.jpg')
-                            : CachedNetworkImageProvider(
-                                widget.author.profileImageUrl),
-                      ),
-                      SizedBox(width: 8.0),
-                      Text(
-                        widget.author.name,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(width: 200.0),
-                      widget.currentUserId == widget.post.authorId
-                          ? IconButton(
-                              icon: Icon(Icons.delete_forever),
-                              iconSize: 30.0,
-                              onPressed: () {
-                                DatabaseService.deletePostData(
-                                    context, widget.post);
-                                setState(() {
-                                  _showPost = false;
-                                });
-                              },
-                            )
-                          : SizedBox.shrink(),
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onDoubleTap: _likePost,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image:
-                              CachedNetworkImageProvider(widget.post.imageUrl),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: _isLiked
-                              ? Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
-                                )
-                              : Icon(Icons.favorite),
-                          iconSize: 30.0,
-                          onPressed: _likePost,
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.comment),
-                          iconSize: 30.0,
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => CommentPage(
-                                post: widget.post,
-                                likeCount: _likeCount,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Text(
-                        '${_likeCount.toString()} 个赞',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 4.0),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: 12.0,
-                            right: 6.0,
-                          ),
-                          child: Text(
-                            widget.author.name,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            widget.post.caption,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 12.0),
-                  ],
                 ),
               ),
             ],
-          )
-        : SizedBox.shrink();
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: _isLiked
+                        ? Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          )
+                        : Icon(Icons.favorite),
+                    iconSize: 30.0,
+                    onPressed: _likePost,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.comment),
+                    iconSize: 30.0,
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => CommentPage(
+                          post: widget.post,
+                          likeCount: _likeCount,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  '${_likeCount.toString()} 个赞',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 4.0),
+              Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: 12.0,
+                      right: 6.0,
+                    ),
+                    child: Text(
+                      widget.author.name,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      widget.post.caption,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 12.0),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
