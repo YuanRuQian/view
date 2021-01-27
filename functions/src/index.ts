@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import admin = require('firebase-admin');
+import * as admin from 'firebase-admin';
 admin.initializeApp();
 
 // // Start writing Firebase Functions
@@ -8,7 +8,7 @@ admin.initializeApp();
 
 export const onFollowUser = functions.firestore
   .document('/followers/{userId}/userFollowers/{followerId}')
-  .onCreate(async (snapshot, context) => {
+  .onCreate(async (snapshot, context): Promise<void> => {
     console.log(snapshot.data());
     const userId = context.params.userId;
     const followerId = context.params.followerId;
@@ -32,7 +32,7 @@ export const onFollowUser = functions.firestore
 
 export const onUnfollowUser = functions.firestore
   .document('/followers/{userId}/userFollowers/{followerId}')
-  .onDelete(async (snapshot, context) => {
+  .onDelete(async (snapshot, context): Promise<void> => {
     const userId = context.params.userId;
     const followerId = context.params.followerId;
     const userFeedRef = admin
@@ -51,7 +51,7 @@ export const onUnfollowUser = functions.firestore
 
 export const onUploadPost = functions.firestore
   .document('/posts/{userId}/userPosts/{postId}')
-  .onCreate(async (snapshot, context) => {
+  .onCreate(async (snapshot, context): Promise<void> => {
     console.log(snapshot.data());
     const userId = context.params.userId;
     const postId = context.params.postId;
@@ -74,7 +74,7 @@ export const onUploadPost = functions.firestore
 
 export const onUpdatePost = functions.firestore
   .document('/posts/{userId}/userPosts/{postId}')
-  .onUpdate(async (snapshot, context) => {
+  .onUpdate(async (snapshot, context): Promise<void> => {
     const userId = context.params.userId;
     const postId = context.params.postId;
     const newPostData = snapshot.after.data();
