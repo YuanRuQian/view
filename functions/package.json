@@ -1,7 +1,7 @@
 {
   "name": "functions",
   "scripts": {
-    "lint": "eslint \"src/**/*\"",
+    "lint": "tslint -p tsconfig.json src/**/*.ts",
     "build": "tsc",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
@@ -12,6 +12,7 @@
   "engines": {
     "node": "12"
   },
+  "include": ["src/**/*"],
   "main": "lib/index.js",
   "dependencies": {
     "firebase-admin": "^9.2.0",
