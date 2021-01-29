@@ -191,15 +191,7 @@ class DatabaseService {
     RegExp exp = RegExp(r'post_(.*).jpg');
     imageUrl = exp.firstMatch(imageUrl)[0];
     var desertImageRef = storageRef.child('images/posts/$imageUrl');
-    var desertCommentsRef =
-        activitiesRef.document(post.authorId).collection('userActivities');
     return Future.wait([
-      // 删除所有评论
-      commentsRef.document(post.id).get().then((doc) {
-        if (doc.exists) {
-          doc.reference.delete();
-        }
-      }),
       // 删除帖子本身
       postsRef
           .document(post.authorId)
@@ -213,18 +205,6 @@ class DatabaseService {
       }),
       // 删除帖子引用的图片
       desertImageRef.delete().then((msg) {}),
-      // 删除帖子的赞
-      likesRef.document(post.id).get().then((doc) {
-        if (doc.exists) {
-          doc.reference.delete();
-        }
-      }),
-      // 删除帖子的评论
-      desertCommentsRef.document(post.id).get().then((doc) {
-        if(doc.exists) {
-          doc.reference.delete();
-        }
-      })
     ]);
   }
 

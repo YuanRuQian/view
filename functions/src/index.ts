@@ -98,3 +98,38 @@ export const onUpdatePost = functions.firestore
     });
   });
 
+export const onDeletePost = functions.firestore
+  .document('/posts/{userId}/userPosts/{postId}')
+  .onCreate(async (snapshot, context): Promise<void> => {
+    console.log(snapshot.data());
+    const userId = context.params.userId;
+    const postId = context.params.postId;
+    const userFollowersRef = admin
+      .firestore()
+      .collection('followers')
+      .doc(userId)
+      .collection('userFollowers');
+    const userFollowersSnapshot = await userFollowersRef.get();
+    userFollowersSnapshot.forEach(doc => {
+      admin
+        .firestore()
+        .collection('feeds')
+        .doc(doc.id)
+        .collection('userFeed')
+        .doc(postId).delete();
+      // 删除订阅者 feed 流的信息
+    });
+    admin.firestore().collection('comments').doc(postId).delete();
+    // 删除该 post 的评论
+    admin.firestore().collection('likes').doc(postId).delete();
+    // 删除该 post 的赞
+    const activitiesRef = admin.firestore().collection('activities').doc(userId).collection('userActivities');
+    const activitiesSnapshot = await activitiesRef.get();
+    activitiesSnapshot.forEach(doc => {
+      if ( doc.data['postId'] == postId) {
+        activitiesRef.doc(doc.id).delete();
+      }
+    })
+    // 删除该 post 的相关互动
+  });
+
