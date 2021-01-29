@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:view/services/database.dart';
 import 'package:view/models/userModel.dart';
 import 'package:view/models/postModel.dart';
+import 'package:view/ui/widgets/noFeedIllustration.dart';
 import 'package:view/ui/widgets/postView.dart';
 import 'package:view/ui/widgets/viewTitle.dart';
 
@@ -16,7 +17,6 @@ class FeedPage extends StatefulWidget {
 }
 
 class _FeedPageState extends State<FeedPage> {
-  
   @override
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
@@ -31,24 +31,19 @@ class _FeedPageState extends State<FeedPage> {
         stream: DatabaseService.getFeedPosts(widget.currentUserId),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            return Container(
-              height: _height,
-              width: _width,
-              child:Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text('您暂时还没有任何订阅的内容',
-                      style: TextStyle(fontSize: 20.0, color: Colors.black)),
-                  Image.asset(
-                    'assets/images/feed_photos.jpg',
-                    height: 250.0,
-                    width: 250.0,
-                  ),
-                ],
-              ));
+            return NoFeedIllustration(
+              containerHeight: _height,
+              containerWidth: _width,
+            );
           }
           final List<Post> posts = snapshot.data;
+          print('当前 post 的 数量 是: ${posts.length}');
+          if (posts.length == 0) {
+            return NoFeedIllustration(
+              containerHeight: _height,
+              containerWidth: _width,
+            );
+          }
           return ListView.builder(
             itemCount: posts.length,
             itemBuilder: (BuildContext context, int index) {
@@ -61,11 +56,10 @@ class _FeedPageState extends State<FeedPage> {
                   }
                   User author = snapshot.data;
                   return PostView(
-                    currentUserId: widget.currentUserId,
-                    post: post,
-                    author: author,
-                    parentCall: null
-                  );
+                      currentUserId: widget.currentUserId,
+                      post: post,
+                      author: author,
+                      parentCall: null);
                 },
               );
             },
