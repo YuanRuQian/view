@@ -19,6 +19,8 @@ class _FeedPageState extends State<FeedPage> {
   
   @override
   Widget build(BuildContext context) {
+    final _height = MediaQuery.of(context).size.height;
+    final _width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -29,7 +31,22 @@ class _FeedPageState extends State<FeedPage> {
         stream: DatabaseService.getFeedPosts(widget.currentUserId),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            return SizedBox.shrink();
+            return Container(
+              height: _height,
+              width: _width,
+              child:Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('您暂时还没有任何订阅的内容',
+                      style: TextStyle(fontSize: 20.0, color: Colors.black)),
+                  Image.asset(
+                    'assets/images/feed_photos.jpg',
+                    height: 250.0,
+                    width: 250.0,
+                  ),
+                ],
+              ));
           }
           final List<Post> posts = snapshot.data;
           return ListView.builder(
