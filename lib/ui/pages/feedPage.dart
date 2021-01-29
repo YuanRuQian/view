@@ -47,6 +47,7 @@ class _FeedPageState extends State<FeedPage> {
                     currentUserId: widget.currentUserId,
                     post: post,
                     author: author,
+                    parentCall: null
                   );
                 },
               );

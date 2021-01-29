@@ -38,6 +38,7 @@ class _PostViewState extends State<PostView> {
   }
 
   _initPostLiked() async {
+    print('postView 的帖子 id : ${widget.post.id}');
     bool isLiked = await DatabaseService.didLikePost(
       currentUserId: widget.currentUserId,
       post: widget.post,
@@ -111,9 +112,13 @@ class _PostViewState extends State<PostView> {
                     ? IconButton(
                         icon: Icon(Icons.delete_forever),
                         iconSize: 30.0,
-                        onPressed: () {
-                          DatabaseService.deletePostData(context, widget.post);
-                          widget.parentCall();
+                        onPressed: () async {
+                          Future<Post> res =
+                              (await DatabaseService.deletePostData(
+                                  context, widget.post)) as Future<Post>;
+                          res.then((res) {
+                            widget.parentCall();
+                          });
                         },
                       )
                     : SizedBox.shrink()
