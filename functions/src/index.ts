@@ -126,7 +126,8 @@ export const onDeletePost = functions.firestore
     const activitiesRef = admin.firestore().collection('activities').doc(userId).collection('userActivities');
     const activitiesSnapshot = await activitiesRef.get();
     activitiesSnapshot.forEach(doc => {
-      if ( doc.data['postId'] == postId) {
+      const key = 'postId';
+      if ( doc.data && String(doc.data[key]) === String(postId)) {
         activitiesRef.doc(doc.id).delete();
       }
     })
