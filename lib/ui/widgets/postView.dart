@@ -70,6 +70,63 @@ class _PostViewState extends State<PostView> {
     }
   }
 
+  _deleteThisPost() async {
+    Future res = await DatabaseService.deletePostData(widget.post);
+    res.then((res) {
+      widget.parentCall();
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(title: Text('刪除成功!'));
+          });
+    }).catchError((err) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+                title: Text('刪除失败!'),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text('以下为返回信息:'),
+                      Text(err),
+                    ],
+                  ),
+                ));
+          });
+    });
+  }
+
+  _showDeletePostDialog() {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("取消"),
+      onPressed: () => Navigator.of(context).pop(),
+    );
+    Widget continueButton = FlatButton(
+        child: Text("确定"),
+        onPressed: () {
+          _deleteThisPost();
+          Navigator.of(context).pop();
+        });
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("确认删除"),
+      content: Text("您要继续删除操作吗？"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -112,33 +169,7 @@ class _PostViewState extends State<PostView> {
                     ? IconButton(
                         icon: Icon(Icons.delete_forever),
                         iconSize: 30.0,
-                        onPressed: () async {
-                          Future res =
-                              await DatabaseService.deletePostData(widget.post);
-                          res.then((res) {
-                            widget.parentCall();
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(title: Text('刪除成功!'));
-                                });
-                          }).catchError((err) {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                      title: Text('刪除失败!'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('以下为返回信息:'),
-                                            Text(err),
-                                          ],
-                                        ),
-                                      ));
-                                });
-                          });
-                        },
+                        onPressed: () => _showDeletePostDialog(),
                       )
                     : SizedBox.shrink()
               ],
