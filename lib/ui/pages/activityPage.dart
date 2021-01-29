@@ -8,6 +8,7 @@ import 'package:view/ui/pages/commentPage.dart';
 import 'package:view/services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:view/ui/widgets/noActivityIllustration.dart';
 import 'package:view/ui/widgets/viewTitle.dart';
 
 class ActivityPage extends StatefulWidget {
@@ -34,12 +35,15 @@ class _ActivityPageState extends State<ActivityPage> {
     }
   }
 
-  _buildActivity(Activity activity) {
+  _buildActivity(Activity activity, double _height, double _width) {
     return FutureBuilder(
       future: DatabaseService.getUserWithId(activity.fromUserId),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (!snapshot.hasData) {
-          return SizedBox.shrink();
+          return NoActivityIllustration(
+            containerHeight: _height,
+            containerWidth: _width,
+          );
         }
         User user = snapshot.data;
         return ListTile(
@@ -85,6 +89,8 @@ class _ActivityPageState extends State<ActivityPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _height = MediaQuery.of(context).size.height;
+    final _width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -93,13 +99,18 @@ class _ActivityPageState extends State<ActivityPage> {
       ),
       body: RefreshIndicator(
         onRefresh: () => _setupActivities(),
-        child: ListView.builder(
-          itemCount: _activities.length,
-          itemBuilder: (BuildContext context, int index) {
-            Activity activity = _activities[index];
-            return _buildActivity(activity);
-          },
-        ),
+        child: _activities.length == 0
+            ? NoActivityIllustration(
+                containerHeight: _height,
+                containerWidth: _width,
+              )
+            : ListView.builder(
+                itemCount: _activities.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Activity activity = _activities[index];
+                  return _buildActivity(activity, _height, _width);
+                },
+              ),
       ),
     );
   }
