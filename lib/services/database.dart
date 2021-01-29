@@ -186,35 +186,46 @@ class DatabaseService {
     );
   }
 
-  static deletePostData(BuildContext context, Post post) {
-    commentsRef.document(post.id).get().then((doc) {
-      if (doc.exists) {
-        doc.reference.delete();
-      }
-    });
-    // 先删除所有评论
+  static Future deletePostData(Post post) {
     String imageUrl = post.imageUrl;
     RegExp exp = RegExp(r'post_(.*).jpg');
     imageUrl = exp.firstMatch(imageUrl)[0];
-    postsRef
-        .document(post.authorId)
-        .collection('userPosts')
-        .document(post.id)
-        .get()
-        .then((doc) {
-      if (doc.exists) {
-        doc.reference.delete();
-      }
-    });
-    // 再删除这个帖子
-    var desertRef = storageRef.child('images/posts/$imageUrl');
-    print('---删除图片: $imageUrl---');
-    desertRef.delete().then((msg) {
-      _showMessage(context, '删除成功', false);
-    }).catchError((err) {
-      _showMessage(context, err.toString(), true);
-    });
-    // 删除帖子的图片
+    var desertImageRef = storageRef.child('images/posts/$imageUrl');
+    var desertCommentsRef =
+        activitiesRef.document(post.authorId).collection('userActivities');
+    return Future.wait([
+      // 删除所有评论
+      commentsRef.document(post.id).get().then((doc) {
+        if (doc.exists) {
+          doc.reference.delete();
+        }
+      }),
+      // 删除帖子本身
+      postsRef
+          .document(post.authorId)
+          .collection('userPosts')
+          .document(post.id)
+          .get()
+          .then((doc) {
+        if (doc.exists) {
+          doc.reference.delete();
+        }
+      }),
+      // 删除帖子引用的图片
+      desertImageRef.delete().then((msg) {}),
+      // 删除帖子的赞
+      likesRef.document(post.id).get().then((doc) {
+        if (doc.exists) {
+          doc.reference.delete();
+        }
+      }),
+      // 删除帖子的评论
+      desertCommentsRef.document(post.id).get().then((doc) {
+        if(doc.exists) {
+          doc.reference.delete();
+        }
+      })
+    ]);
   }
 
   static Future<bool> didLikePost({String currentUserId, Post post}) async {

@@ -113,11 +113,30 @@ class _PostViewState extends State<PostView> {
                         icon: Icon(Icons.delete_forever),
                         iconSize: 30.0,
                         onPressed: () async {
-                          Future<Post> res =
-                              (await DatabaseService.deletePostData(
-                                  context, widget.post)) as Future<Post>;
+                          Future res =
+                              await DatabaseService.deletePostData(widget.post);
                           res.then((res) {
                             widget.parentCall();
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(title: Text('刪除成功!'));
+                                });
+                          }).catchError((err) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                      title: Text('刪除失败!'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('以下为返回信息:'),
+                                            Text(err),
+                                          ],
+                                        ),
+                                      ));
+                                });
                           });
                         },
                       )
