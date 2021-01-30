@@ -139,7 +139,7 @@ export const onDeletePost = functions.firestore
     const activitiesSnapshot = await activitiesRef.get();
     activitiesSnapshot.forEach(doc => {
       const key = 'postId';
-      const data = doc.data;
+      const data = doc.data();
       console.log(`删除 post ${postId} 的相关互动, 该用户的 doc post id 为 ${data[key]}`)
       if ( data && data[key] === postId) {
         activitiesRef.doc(doc.id).delete();
