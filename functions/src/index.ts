@@ -123,17 +123,29 @@ export const onDeletePost = functions.firestore
         });;
       // 删除订阅者 feed 流的信息
     });
-    admin.firestore().collection('comments').doc(postId).delete().then((res) => {
-      console.log(`删除 post ${postId} 的评论 成功, res: ${JSON.stringify(res)}`);
-    }).catch((err) => {
-      console.log(`删除 post ${postId} 的评论失败, err: ${err}`);
-    });
+    const postCommentsRef = admin
+      .firestore()
+      .collection('comments')
+      .doc(postId)
+      .collection('postComments');
+    const postCommentsSnapshot = await postCommentsRef.get();
+    postCommentsSnapshot.forEach(doc => {
+      admin.firestore().collection('comments').doc(postId).collection('postComments').doc(doc.id).delete().then((res) => {
+        console.log(`删除 post ${postId} 评论 ${doc.id} 成功, res: ${JSON.stringify(res)}`);
+      }).catch((err) => {
+        console.log(`删除 post ${postId} 评论 ${doc.id} 失败, err: ${err}`);
+      })
+    })
     // 删除该 post 的评论
-    admin.firestore().collection('likes').doc(postId).delete().then((res) => {
-      console.log(`删除 post ${postId} 的赞 成功, res: ${JSON.stringify(res)}`);
-    }).catch((err) => {
-      console.log(`删除 post ${postId} 的赞失败, err: ${err}`);
-    });;
+    const postLikesRef = admin.firestore().collection('likes').doc(postId).collection('postLikes');
+    const postLikesSnapshot = await postLikesRef.get();
+    postLikesSnapshot.forEach(doc => {
+      admin.firestore().collection('likes').doc(postId).collection('postLikes').doc(doc.id).delete().then((res) => {
+        console.log(`删除 post ${postId} 赞 ${doc.id} 成功, res: ${JSON.stringify(res)}`);
+      }).catch((err) => {
+        console.log(`删除 post ${postId} 赞 ${doc.id} 失败, err: ${err}`);
+      })
+    })
     // 删除该 post 的赞
     const activitiesRef = admin.firestore().collection('activities').doc(userId).collection('userActivities');
     const activitiesSnapshot = await activitiesRef.get();
