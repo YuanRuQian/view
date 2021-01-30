@@ -119,15 +119,25 @@ export const onDeletePost = functions.firestore
         .doc(postId).delete();
       // 删除订阅者 feed 流的信息
     });
-    admin.firestore().collection('comments').doc(postId).delete();
+    admin.firestore().collection('comments').doc(postId).delete().then((res) => {
+      console.log(`删除 post ${postId} 的评论 成功`);
+    }).catch((err) => {
+      console.log(`删除 post ${postId} 的评论失败, err: ${err}`);
+    });
     // 删除该 post 的评论
-    admin.firestore().collection('likes').doc(postId).delete();
+    admin.firestore().collection('likes').doc(postId).delete().then((res) => {
+      console.log(`删除 post ${postId} 的赞 成功`);
+    }).catch((err) => {
+      console.log(`删除 post ${postId} 的赞失败, err: ${err}`);
+    });;
     // 删除该 post 的赞
     const activitiesRef = admin.firestore().collection('activities').doc(userId).collection('userActivities');
     const activitiesSnapshot = await activitiesRef.get();
     activitiesSnapshot.forEach(doc => {
       const key = 'postId';
-      if ( doc.data && String(doc.data[key]) === String(postId)) {
+      const data = doc.data;
+      console.log(`删除 post ${postId} 的相关互动, 该用户的 doc post id 为 ${doc.id}`)
+      if ( data && data[key] === postId) {
         activitiesRef.doc(doc.id).delete();
       }
     })
