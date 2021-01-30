@@ -122,6 +122,8 @@ class _PostViewState extends State<PostView> {
 
   @override
   Widget build(BuildContext context) {
+    final _height = MediaQuery.of(context).size.height;
+    final _width = MediaQuery.of(context).size.width;
     return Column(
       children: <Widget>[
         GestureDetector(
@@ -135,6 +137,7 @@ class _PostViewState extends State<PostView> {
             ),
           ),
           child: Container(
+            width: _width,
             padding: EdgeInsets.symmetric(
               horizontal: 16.0,
               vertical: 10.0,
@@ -149,7 +152,7 @@ class _PostViewState extends State<PostView> {
                       : CachedNetworkImageProvider(
                           widget.author.profileImageUrl),
                 ),
-                SizedBox(width: 8.0),
+                SizedBox(width: 15.0),
                 Text(
                   widget.author.name,
                   style: TextStyle(
@@ -157,14 +160,13 @@ class _PostViewState extends State<PostView> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(width: 200.0),
-                widget.currentUserId == widget.post.authorId
-                    ? IconButton(
+                Expanded(child: widget.currentUserId == widget.post.authorId
+                    ? Container( alignment: Alignment.centerRight,child: IconButton(
                         icon: Icon(Icons.delete_forever),
                         iconSize: 30.0,
                         onPressed: () => _showDeletePostDialog(),
-                      )
-                    : SizedBox.shrink()
+                      ),)
+                    : SizedBox.shrink(),)
               ],
             ),
           ),
