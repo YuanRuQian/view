@@ -71,30 +71,23 @@ class _PostViewState extends State<PostView> {
   }
 
   _deleteThisPost() async {
-    Future res = await DatabaseService.deletePostData(widget.post);
-    res.then((res) {
+    List res = await DatabaseService.deletePostData(widget.post);
+    if(res.length>0) {
       widget.parentCall();
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(title: Text('刪除成功!'));
           });
-    }).catchError((err) {
+    } else {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-                title: Text('刪除失败!'),
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: <Widget>[
-                      Text('以下为返回信息:'),
-                      Text(err),
-                    ],
-                  ),
-                ));
+                title: Text('刪除失败!')
+            );
           });
-    });
+    }
   }
 
   _showDeletePostDialog() {

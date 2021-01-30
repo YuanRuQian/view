@@ -100,7 +100,7 @@ export const onUpdatePost = functions.firestore
 
 export const onDeletePost = functions.firestore
   .document('/posts/{userId}/userPosts/{postId}')
-  .onCreate(async (snapshot, context): Promise<void> => {
+  .onDelete(async (snapshot, context): Promise<void> => {
     console.log(snapshot.data());
     const userId = context.params.userId;
     const postId = context.params.postId;
