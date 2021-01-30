@@ -116,7 +116,11 @@ export const onDeletePost = functions.firestore
         .collection('feeds')
         .doc(doc.id)
         .collection('userFeed')
-        .doc(postId).delete();
+        .doc(postId).delete().then((res) => {
+          console.log(`删除 user ${doc.id} post ${postId} 的 feed 成功`);
+        }).catch((err) => {
+          console.log(`删除 user ${doc.id} post ${postId} 的 feed 失败, err: ${err}`);
+        });;
       // 删除订阅者 feed 流的信息
     });
     admin.firestore().collection('comments').doc(postId).delete().then((res) => {
@@ -136,7 +140,7 @@ export const onDeletePost = functions.firestore
     activitiesSnapshot.forEach(doc => {
       const key = 'postId';
       const data = doc.data;
-      console.log(`删除 post ${postId} 的相关互动, 该用户的 doc post id 为 ${doc.id}`)
+      console.log(`删除 post ${postId} 的相关互动, 该用户的 doc post id 为 ${data[key]}`)
       if ( data && data[key] === postId) {
         activitiesRef.doc(doc.id).delete();
       }
