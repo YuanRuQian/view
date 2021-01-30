@@ -117,20 +117,20 @@ export const onDeletePost = functions.firestore
         .doc(doc.id)
         .collection('userFeed')
         .doc(postId).delete().then((res) => {
-          console.log(`删除 user ${doc.id} post ${postId} 的 feed 成功`);
+          console.log(`删除 user ${doc.id} post ${postId} 的 feed 成功, res: ${JSON.stringify(res)}`);
         }).catch((err) => {
           console.log(`删除 user ${doc.id} post ${postId} 的 feed 失败, err: ${err}`);
         });;
       // 删除订阅者 feed 流的信息
     });
     admin.firestore().collection('comments').doc(postId).delete().then((res) => {
-      console.log(`删除 post ${postId} 的评论 成功`);
+      console.log(`删除 post ${postId} 的评论 成功, res: ${JSON.stringify(res)}`);
     }).catch((err) => {
       console.log(`删除 post ${postId} 的评论失败, err: ${err}`);
     });
     // 删除该 post 的评论
     admin.firestore().collection('likes').doc(postId).delete().then((res) => {
-      console.log(`删除 post ${postId} 的赞 成功`);
+      console.log(`删除 post ${postId} 的赞 成功, res: ${JSON.stringify(res)}`);
     }).catch((err) => {
       console.log(`删除 post ${postId} 的赞失败, err: ${err}`);
     });;
@@ -140,9 +140,12 @@ export const onDeletePost = functions.firestore
     activitiesSnapshot.forEach(doc => {
       const key = 'postId';
       const data = doc.data();
-      console.log(`删除 post ${postId} 的相关互动, 该用户的 doc post id 为 ${data[key]}`)
       if ( data && data[key] === postId) {
-        activitiesRef.doc(doc.id).delete();
+        activitiesRef.doc(doc.id).delete().then((res) => {
+          console.log(`删除 post ${postId} 的相关互动, 该用户的 doc post id 为 ${data[key]}, res: ${JSON.stringify(res)}`)
+        }).catch((err) => {
+          console.log(`删除 post ${postId} 的相关互动失败, err: ${err}`)
+        });
       }
     })
     // 删除该 post 的相关互动
