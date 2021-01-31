@@ -70,6 +70,10 @@ export const onUploadPost = functions.firestore
         .doc(postId)
         .set(snapshot.data());
     });
+    // 把 post 推送给所有订阅者
+    const myselFeedRef = admin.firestore().collection('feeds').doc(userId).collection('userFeed').doc(postId)
+      .set(snapshot.data());
+    // 把 post 写入自己的 feed 流
   });
 
 export const onUpdatePost = functions.firestore
@@ -152,7 +156,7 @@ export const onDeletePost = functions.firestore
     activitiesSnapshot.forEach(doc => {
       const key = 'postId';
       const data = doc.data();
-      if ( data && data[key] === postId) {
+      if (data && data[key] === postId) {
         activitiesRef.doc(doc.id).delete().then((res) => {
           console.log(`删除 post ${postId} 的相关互动, 该用户的 doc post id 为 ${data[key]}, res: ${JSON.stringify(res)}`)
         }).catch((err) => {
@@ -161,5 +165,11 @@ export const onDeletePost = functions.firestore
       }
     })
     // 删除该 post 的相关互动
+    const myselFeedRef = admin.firestore().collection('feeds').doc(userId).collection('userFeed').doc(postId).delete().then((res) => {
+      console.log(`从用户 ${userId} 的 feed 删除自己的帖子 ${postId} 成功, res: ${JSON.stringify(res)}`);
+    }).catch((err) => {
+      console.log(`从用户 ${userId} 的 feed 删除自己的帖子 ${postId} 失败, res: ${err}`);
+    });
+    // 把 post 从自己的 feed 流删除
   });
 
