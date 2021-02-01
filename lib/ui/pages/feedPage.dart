@@ -56,6 +56,7 @@ class _FeedPageState extends State<FeedPage> {
                   }
                   User author = snapshot.data;
                   return PostView(
+                      showDeleteBtn: false,
                       currentUserId: widget.currentUserId,
                       post: post,
                       author: author,

@@ -326,6 +326,7 @@ class _ProfilePageState extends State<ProfilePage> {
       List<PostView> postViews = [];
       _posts.forEach((post) {
         postViews.add(PostView(
+            showDeleteBtn: true,
             currentUserId: widget.currentUserId,
             post: post,
             author: _profileUser,

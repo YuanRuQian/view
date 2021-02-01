@@ -7,12 +7,18 @@ import 'package:view/ui/pages/profilePage.dart';
 import 'package:view/services/database.dart';
 
 class PostView extends StatefulWidget {
+  final bool showDeleteBtn;
   final String currentUserId;
   final Post post;
   final User author;
   final parentCall;
 
-  PostView({this.currentUserId, this.post, this.author, this.parentCall});
+  PostView(
+      {this.showDeleteBtn,
+      this.currentUserId,
+      this.post,
+      this.author,
+      this.parentCall});
 
   @override
   _PostViewState createState() => _PostViewState();
@@ -72,7 +78,7 @@ class _PostViewState extends State<PostView> {
 
   _deleteThisPost() async {
     List res = await DatabaseService.deletePostData(widget.post);
-    if(res.length>0) {
+    if (res.length > 0) {
       widget.parentCall();
       showDialog(
           context: context,
@@ -83,9 +89,7 @@ class _PostViewState extends State<PostView> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-                title: Text('刪除失败!')
-            );
+            return AlertDialog(title: Text('刪除失败!'));
           });
     }
   }
@@ -159,13 +163,20 @@ class _PostViewState extends State<PostView> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Expanded(child: widget.currentUserId == widget.post.authorId
-                    ? Container( alignment: Alignment.centerRight,child: IconButton(
-                        icon: Icon(Icons.delete_forever),
-                        iconSize: 30.0,
-                        onPressed: () => _showDeletePostDialog(),
-                      ),)
-                    : SizedBox.shrink(),)
+                Expanded(
+                  child: widget.currentUserId == widget.post.authorId
+                      ? Container(
+                          alignment: Alignment.centerRight,
+                          child: widget.showDeleteBtn
+                              ? IconButton(
+                                  icon: Icon(Icons.delete_forever),
+                                  iconSize: 30.0,
+                                  onPressed: () => _showDeletePostDialog(),
+                                )
+                              : SizedBox.shrink(),
+                        )
+                      : SizedBox.shrink(),
+                )
               ],
             ),
           ),
