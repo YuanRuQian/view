@@ -23,7 +23,7 @@ class _SignUpPageState extends State<SignUpPage> {
       _formKey.currentState.save();
       print('创建账号 $_email $_name $_password');
       // Logging in the user w/ Firebase
-      AuthService.signUpUser(context, _name, _email, _password);
+      AuthService.signup(context, _name, _email, _password);
       setState(() {
         _isLoading = false;
       });

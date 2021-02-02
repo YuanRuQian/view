@@ -28,7 +28,7 @@ class AuthService {
     );
   }
 
-  static void signUpUser(
+  static void signup(
       BuildContext context, String name, String email, String password) async {
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(
