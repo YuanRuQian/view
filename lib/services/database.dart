@@ -188,7 +188,7 @@ class DatabaseService {
 
   static Future deletePostData(Post post) {
     String imageUrl = post.imageUrl;
-    RegExp exp = RegExp(r'post_(.*).jpg');
+    RegExp exp = RegExp(r'post_(.*).(jpg|jpeg)');
     imageUrl = exp.firstMatch(imageUrl)[0];
     var desertImageRef = storageRef.child('images/posts/$imageUrl');
     return Future.wait([

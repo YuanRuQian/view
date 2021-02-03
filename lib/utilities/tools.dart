@@ -11,3 +11,8 @@ bool validateEmail(String value) {
   RegExp regex = new RegExp(pattern);
   return regex.hasMatch(value);
 }
+
+String extractImgeType(String imgName) {
+  RegExp typeExp = RegExp(r'.(jpg|jpeg)');
+  return typeExp.firstMatch(imgName)[0];
+}

@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:photofilters/photofilters.dart';
 import 'package:image/image.dart' as imageLib;
+import 'package:view/utilities/tools.dart';
 
 class AddPostPage extends StatefulWidget {
   @override
@@ -29,14 +30,14 @@ class _AddPostPageState extends State<AddPostPage> {
     PickedFile selectedFile = await ImagePicker().getImage(source: source);
     File imageFile = File(selectedFile.path);
     _fileName = imageFile.path;
-    RegExp exp = RegExp(r'image_picker(.*).jpg');
+    RegExp exp = RegExp(r'image_picker(.*).(jpg|jpeg)');
     var expMatchRes = exp.firstMatch(_fileName);
     if (expMatchRes == null) {
       return showDialog(
           context: context,
           builder: (_) => new AlertDialog(
                 title: new Text("图片类型限制"),
-                content: new Text("目前 View 仅支持 jpg 类型的图片哦"),
+                content: new Text("目前 View 仅支持 jpg, jpeg 类型的图片哦"),
                 actions: <Widget>[
                   FlatButton(
                     child: Text('好的, 我知道了'),
@@ -126,7 +127,6 @@ class _AddPostPageState extends State<AddPostPage> {
       setState(() {
         _isLoading = true;
       });
-
       // Create post
       String imageUrl = await StorageService.uploadPost(_image);
       Post post = Post(
