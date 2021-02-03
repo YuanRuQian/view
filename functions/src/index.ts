@@ -100,6 +100,13 @@ export const onUpdatePost = functions.firestore
         postDoc.ref.update(newPostData);
       }
     });
+    // 更新所有订阅者的 feeds
+    const selfPostRef = admin.firestore().collection('feeds').doc(userId).collection('userFeed');
+    const selfPostDoc = await selfPostRef.doc(postId).get();
+    if(selfPostDoc.exists) {
+      selfPostDoc.ref.update(newPostData);
+    }
+    // 更新自己 feed 流上的帖子
   });
 
 export const onDeletePost = functions.firestore
