@@ -30,7 +30,24 @@ class _AddPostPageState extends State<AddPostPage> {
     File imageFile = File(selectedFile.path);
     _fileName = imageFile.path;
     RegExp exp = RegExp(r'image_picker(.*).jpg');
-    _fileName = exp.firstMatch(_fileName)[0];
+    var expMatchRes = exp.firstMatch(_fileName);
+    if (expMatchRes == null) {
+      return showDialog(
+          context: context,
+          builder: (_) => new AlertDialog(
+                title: new Text("图片类型限制"),
+                content: new Text("目前 View 仅支持 jpg 类型的图片哦"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('好的, 我知道了'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ));
+    }
+    _fileName = expMatchRes[0];
     print('选中的文件名字是' + _fileName);
     if (imageFile != null) {
       imageFile = await _cropImage(imageFile);
@@ -119,7 +136,7 @@ class _AddPostPageState extends State<AddPostPage> {
         authorId: Provider.of<UserData>(context, listen: false).currentUserId,
         timestamp: Timestamp.fromDate(DateTime.now()),
       );
-      DatabaseService.createPost(context,post);
+      DatabaseService.createPost(context, post);
 
       // Reset data
       _captionController.clear();
