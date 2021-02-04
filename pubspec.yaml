@@ -90,3 +90,7 @@ flutter:
       fonts:
         - asset: fonts/PermanentMarker-Regular.ttf
           weight: 700
+    - family: Caveat
+      fonts:
+        - asset: fonts/Caveat-VariableFont_wght.ttf
+          weight: 800
