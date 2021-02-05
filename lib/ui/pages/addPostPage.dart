@@ -11,7 +11,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:photofilters/photofilters.dart';
 import 'package:image/image.dart' as imageLib;
-import 'package:view/utilities/tools.dart';
 
 class AddPostPage extends StatefulWidget {
   @override
