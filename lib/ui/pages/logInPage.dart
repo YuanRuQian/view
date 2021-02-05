@@ -22,6 +22,22 @@ class _LoginPageState extends State<LogInPage> {
     }
   }
 
+  Route _createSignUpPageRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => SignUpPage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +99,7 @@ class _LoginPageState extends State<LogInPage> {
                           width: 250.0,
                           child: FlatButton(
                             onPressed: () =>
-                                Navigator.pushNamed(context, SignUpPage.id),
+                                Navigator.of(context).push(_createSignUpPageRoute()),
                             color: Colors.blue,
                             padding: EdgeInsets.all(10.0),
                             child: Text(
