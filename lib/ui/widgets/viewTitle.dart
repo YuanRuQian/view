@@ -15,7 +15,7 @@ class _ViewAppTitleState extends State<ViewAppTitle>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds:5500));
+        vsync: this, duration: Duration(milliseconds: 5500));
     _hi = StepTween(begin: 0, end: hi.length).animate(CurvedAnimation(
         parent: _controller, curve: Interval(0.0, 0.5, curve: Curves.easeIn)));
     _controller.forward();
@@ -49,6 +49,12 @@ class _ViewAppTitleState extends State<ViewAppTitle>
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+     _controller.dispose();
+    super.dispose();
   }
 }
 
