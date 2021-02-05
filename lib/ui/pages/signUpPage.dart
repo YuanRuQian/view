@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:view/services/authentication.dart';
-import 'package:view/ui/widgets/signingLoader.dart';
 import 'package:view/ui/widgets/viewTitle.dart';
 import 'package:view/utilities/tools.dart';
 
@@ -13,35 +12,21 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   String _name, _email, _password;
-  bool _isLoading = false;
 
   _submit() {
     if (_formKey.currentState.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
       _formKey.currentState.save();
       print('创建账号 $_email $_name $_password');
       // Logging in the user w/ Firebase
       AuthService.signup(context, _name, _email, _password);
-      setState(() {
-        _isLoading = false;
-      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final _height = MediaQuery.of(context).size.height;
-    final _width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
-        child: _isLoading
-            ? SigningLoader(
-                containerHeight: _height,
-                containerWidth: _width,
-                isLogInMode: false)
-            : Container(
+        child: Container(
                 height: MediaQuery.of(context).size.height,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
