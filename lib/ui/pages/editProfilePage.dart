@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:view/models/userModel.dart';
 import 'package:view/services/database.dart';
 import 'package:view/services/storage.dart';
+import 'package:view/utilities/constants.dart';
 
 class EditProfilePage extends StatefulWidget {
   final User user;
@@ -86,9 +87,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       );
       // Database update
       DatabaseService.updateUser(user);
-
       widget.updateUser(user);
-
       Navigator.pop(context);
     }
   }
@@ -125,13 +124,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       backgroundColor: Colors.grey,
                       backgroundImage: _displayProfileImage(),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: _handleImageFromGallery,
+                      style: TextButton.styleFrom(
+                          textStyle:
+                              TextStyle(color: Colors.black, fontSize: 15.0),
+                          primary: Colors.black),
                       child: Text(
                         '更改头像',
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontSize: 16.0),
                       ),
                     ),
                     TextFormField(
@@ -163,17 +163,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       onSaved: (input) => _bio = input,
                     ),
                     Container(
-                      margin: EdgeInsets.all(40.0),
-                      height: 40.0,
-                      width: 250.0,
-                      child: FlatButton(
+                      margin: EdgeInsets.all(100.0),
+                      width: 200.0,
+                      child: TextButton(
                         onPressed: _submit,
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        child: Text(
-                          '保存',
-                          style: TextStyle(fontSize: 18.0),
+                        style: TextButton.styleFrom(
+                          textStyle:
+                              TextStyle(color: Colors.black, fontSize: 20.0),
+                          primary: Colors.white,
+                          backgroundColor: Colors.black,
+                          side: BorderSide(color: Colors.black, width: 1),
+                          minimumSize: Size(100, 50),
                         ),
+                        child: Text('保存'),
                       ),
                     ),
                   ],

@@ -112,8 +112,8 @@ class _ProfilePageState extends State<ProfilePage> {
   _displayButton(User user) {
     return user.id == Provider.of<UserData>(context).currentUserId
         ? Container(
-            width: 200.0,
-            child: FlatButton(
+            width: 180.0,
+            child: TextButton(
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -133,26 +133,31 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              color: Colors.blue,
-              textColor: Colors.white,
-              child: Text(
-                '编辑',
-                style: TextStyle(fontSize: 18.0),
+              style: TextButton.styleFrom(
+                textStyle: TextStyle(color: Colors.black, fontSize: 18.0),
+                primary: Colors.white,
+                backgroundColor: Colors.black,
+                side: BorderSide(color: Colors.black, width: 1),
+                minimumSize: Size(100, 20),
               ),
+              child: Text('编辑'),
             ),
           )
         : Container(
-            width: 200.0,
-            child: FlatButton(
-              onPressed: _followOrUnfollow,
-              color: _isFollowing ? Colors.grey[200] : Colors.blue,
-              textColor: _isFollowing ? Colors.black : Colors.white,
+            width: 180.0,
+            child: TextButton(
               child: Text(
                 _isFollowing ? '取消关注' : '关注',
-                style: TextStyle(fontSize: 18.0),
               ),
-            ),
-          );
+              style: TextButton.styleFrom(
+                textStyle: TextStyle(color: Colors.black, fontSize: 18.0),
+                primary: _isFollowing ? Colors.black : Colors.white,
+                backgroundColor: _isFollowing ? Colors.grey[200] : Colors.black,
+                elevation: 20,
+                minimumSize: Size(100, 20),
+              ),
+              onPressed: _followOrUnfollow,
+            ));
   }
 
   _buildProfileInfo(User user) {
@@ -222,6 +227,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 10.0),
                     _displayButton(user),
                   ],
                 ),
@@ -265,7 +271,7 @@ class _ProfilePageState extends State<ProfilePage> {
           icon: Icon(Icons.grid_on),
           iconSize: 30.0,
           color: _displayPosts == 0
-              ? Theme.of(context).primaryColor
+              ? Colors.black
               : Colors.grey[300],
           onPressed: () => setState(() {
             _displayPosts = 0;
@@ -275,7 +281,7 @@ class _ProfilePageState extends State<ProfilePage> {
           icon: Icon(Icons.list),
           iconSize: 30.0,
           color: _displayPosts == 1
-              ? Theme.of(context).primaryColor
+              ? Colors.black
               : Colors.grey[300],
           onPressed: () => setState(() {
             _displayPosts = 1;
