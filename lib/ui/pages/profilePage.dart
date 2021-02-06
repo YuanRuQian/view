@@ -109,30 +109,46 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  Route _createEditProfilePageRoute(User user) {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            EditProfilePage(
+              user: user,
+              updateUser: (User updateUser) {
+                // Trigger state rebuild after editing profile
+                User updatedUser = User(
+                  id: updateUser.id,
+                  name: updateUser.name,
+                  email: user.email,
+                  profileImageUrl: updateUser.profileImageUrl,
+                  bio: updateUser.bio,
+                );
+                setState(() => _profileUser = updatedUser);
+              },
+            ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(0.0, 1.0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+          var tween = Tween(begin: begin, end: end);
+          var curvedAnimation = CurvedAnimation(
+            parent: animation,
+            curve: curve,
+          );
+          return SlideTransition(
+            position: tween.animate(curvedAnimation),
+            child: child,
+          );
+        });
+  }
+
   _displayButton(User user) {
     return user.id == Provider.of<UserData>(context).currentUserId
         ? Container(
             width: 180.0,
             child: TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => EditProfilePage(
-                    user: user,
-                    updateUser: (User updateUser) {
-                      // Trigger state rebuild after editing profile
-                      User updatedUser = User(
-                        id: updateUser.id,
-                        name: updateUser.name,
-                        email: user.email,
-                        profileImageUrl: updateUser.profileImageUrl,
-                        bio: updateUser.bio,
-                      );
-                      setState(() => _profileUser = updatedUser);
-                    },
-                  ),
-                ),
-              ),
+              onPressed: () =>
+                  Navigator.of(context).push(_createEditProfilePageRoute(user)),
               style: TextButton.styleFrom(
                 textStyle: TextStyle(color: Colors.black, fontSize: 18.0),
                 primary: Colors.white,
@@ -270,9 +286,7 @@ class _ProfilePageState extends State<ProfilePage> {
         IconButton(
           icon: Icon(Icons.grid_on),
           iconSize: 30.0,
-          color: _displayPosts == 0
-              ? Colors.black
-              : Colors.grey[300],
+          color: _displayPosts == 0 ? Colors.black : Colors.grey[300],
           onPressed: () => setState(() {
             _displayPosts = 0;
           }),
@@ -280,9 +294,7 @@ class _ProfilePageState extends State<ProfilePage> {
         IconButton(
           icon: Icon(Icons.list),
           iconSize: 30.0,
-          color: _displayPosts == 1
-              ? Colors.black
-              : Colors.grey[300],
+          color: _displayPosts == 1 ? Colors.black : Colors.grey[300],
           onPressed: () => setState(() {
             _displayPosts = 1;
           }),
