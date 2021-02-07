@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:view/ui/pages/singlePostPage.dart';
 import 'package:view/ui/widgets/noActivityIllustration.dart';
 import 'package:view/ui/widgets/viewTitle.dart';
+import 'package:view/utilities/constants.dart';
 
 class ActivityPage extends StatefulWidget {
   final String currentUserId;
@@ -72,15 +73,19 @@ class _ActivityPageState extends State<ActivityPage> {
               currentUserId,
               activity.postId,
             );
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => SinglePostPage(post: post,currentUserId: currentUserId,author: user),
-              ),
-            );
+            Navigator.of(context)
+                            .push(_createSinglePostPageRoute(post,user));
           },
         );
       },
+    );
+  }
+
+  Route _createSinglePostPageRoute(Post post, User user) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => SinglePostPage
+      (post: post,currentUserId: widget.currentUserId,author: user),
+      transitionsBuilder: generalPageTransitionAnimation
     );
   }
 
