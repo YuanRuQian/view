@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:view/models/userModel.dart';
 import 'package:view/services/database.dart';
 import 'package:view/services/storage.dart';
-import 'package:view/utilities/constants.dart';
 
 class EditProfilePage extends StatefulWidget {
   final User user;

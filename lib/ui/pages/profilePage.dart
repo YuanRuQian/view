@@ -11,7 +11,6 @@ import 'package:view/ui/pages/editProfilePage.dart';
 import 'package:view/services/authentication.dart';
 import 'package:view/ui/widgets/viewTitle.dart';
 import 'package:view/utilities/constants.dart';
-import 'package:view/utilities/tools.dart';
 
 class ProfilePage extends StatefulWidget {
   final String currentUserId;

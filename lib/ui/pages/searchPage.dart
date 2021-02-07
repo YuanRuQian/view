@@ -8,7 +8,6 @@ import 'package:view/models/userModel.dart';
 import 'package:view/ui/pages/profilePage.dart';
 import 'package:view/services/database.dart';
 import 'package:provider/provider.dart';
-import 'package:view/utilities/constants.dart';
 
 class SearchPage extends StatefulWidget {
   @override

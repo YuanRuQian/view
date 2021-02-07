@@ -4,7 +4,6 @@ import 'package:view/models/activityModel.dart';
 import 'package:view/models/postModel.dart';
 import 'package:view/models/userData.dart';
 import 'package:view/models/userModel.dart';
-import 'package:view/ui/pages/commentPage.dart';
 import 'package:view/services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
