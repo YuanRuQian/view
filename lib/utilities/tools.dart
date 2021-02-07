@@ -1,3 +1,5 @@
+
+
 bool validatePassword(String value) {
   String pattern =
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
@@ -16,3 +18,4 @@ String extractImgeType(String imgName) {
   RegExp typeExp = RegExp(r'.(jpg|jpeg)');
   return typeExp.firstMatch(imgName)[0];
 }
+

@@ -11,6 +11,7 @@ import 'package:view/ui/pages/editProfilePage.dart';
 import 'package:view/services/authentication.dart';
 import 'package:view/ui/widgets/viewTitle.dart';
 import 'package:view/utilities/constants.dart';
+import 'package:view/utilities/tools.dart';
 
 class ProfilePage extends StatefulWidget {
   final String currentUserId;
@@ -156,7 +157,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 textStyle: TextStyle(color: Colors.black, fontSize: 18.0),
                 primary: _isFollowing ? Colors.black : Colors.white,
                 backgroundColor: _isFollowing ? Colors.grey[200] : Colors.black,
-                elevation: 20,
                 minimumSize: Size(100, 20),
               ),
               onPressed: _followOrUnfollow,
@@ -290,18 +290,20 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  _buildTilePost(Post post) {
-    return GridTile(
-      child: GestureDetector(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => CommentPage(
+  Route _createCommentPageRoute(Post post) {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            CommentPage(
               post: post,
               likeCount: post.likeCount,
             ),
-          ),
-        ),
+        transitionsBuilder: generalPageTransitionAnimation);
+  }
+
+  _buildTilePost(Post post) {
+    return GridTile(
+      child: GestureDetector(
+        onTap: () => Navigator.of(context).push(_createCommentPageRoute(post)),
         child: Image(
           image: CachedNetworkImageProvider(post.imageUrl),
           fit: BoxFit.cover,

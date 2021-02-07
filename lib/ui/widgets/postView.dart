@@ -5,6 +5,7 @@ import 'package:view/models/userModel.dart';
 import 'package:view/ui/pages/commentPage.dart';
 import 'package:view/ui/pages/profilePage.dart';
 import 'package:view/services/database.dart';
+import 'package:view/utilities/constants.dart';
 
 class PostView extends StatefulWidget {
   final bool showDeleteBtn;
@@ -124,6 +125,16 @@ class _PostViewState extends State<PostView> {
     );
   }
 
+  Route _createProfilePageRoute(String currentUserId,String userId) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => ProfilePage(
+                currentUserId: currentUserId,
+                userId: userId
+              ),
+      transitionsBuilder: generalPageTransitionAnimation
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
@@ -132,12 +143,7 @@ class _PostViewState extends State<PostView> {
         GestureDetector(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (_) => ProfilePage(
-                currentUserId: widget.currentUserId,
-                userId: widget.post.authorId,
-              ),
-            ),
+            _createProfilePageRoute(widget.currentUserId,widget.post.authorId)
           ),
           child: Container(
             width: _width,

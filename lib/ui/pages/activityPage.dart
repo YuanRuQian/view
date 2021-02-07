@@ -8,6 +8,7 @@ import 'package:view/ui/pages/commentPage.dart';
 import 'package:view/services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:view/ui/pages/singlePostPage.dart';
 import 'package:view/ui/widgets/noActivityIllustration.dart';
 import 'package:view/ui/widgets/viewTitle.dart';
 
@@ -67,7 +68,7 @@ class _ActivityPageState extends State<ActivityPage> {
             fit: BoxFit.cover,
           ),
           onTap: () async {
-            String currentUserId = Provider.of<UserData>(context).currentUserId;
+            String currentUserId = Provider.of<UserData>(context,listen: false).currentUserId;
             Post post = await DatabaseService.getUserPost(
               currentUserId,
               activity.postId,
@@ -75,10 +76,7 @@ class _ActivityPageState extends State<ActivityPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => CommentPage(
-                  post: post,
-                  likeCount: post.likeCount,
-                ),
+                builder: (_) => SinglePostPage(post: post,currentUserId: currentUserId,author: user),
               ),
             );
           },
