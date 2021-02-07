@@ -8,6 +8,7 @@ import 'package:view/models/userModel.dart';
 import 'package:view/ui/pages/profilePage.dart';
 import 'package:view/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:view/utilities/constants.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  _buildUserTile(User user) {
+  _buildUserTile(User user,String currentUserId) {
     return ListTile(
       leading: CircleAvatar(
         radius: 20.0,
@@ -51,15 +52,18 @@ class _SearchPageState extends State<SearchPage> {
             : CachedNetworkImageProvider(user.profileImageUrl),
       ),
       title: Text(user.name),
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => ProfilePage(
-            currentUserId: Provider.of<UserData>(context).currentUserId,
+      onTap: () => Navigator.of(context)
+                            .push(_createProfilePageRoute(user,currentUserId)),
+    );
+  }
+
+  Route _createProfilePageRoute(User user,String currentUserId) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => ProfilePage(
+            currentUserId: currentUserId,
             userId: user.id,
           ),
-        ),
-      ),
+      transitionsBuilder: generalPageTransitionAnimation
     );
   }
 
@@ -146,12 +150,14 @@ class _SearchPageState extends State<SearchPage> {
                     docs.add(data[i]);
                   }
                 }
+                String currentUserId =
+                    Provider.of<UserData>(context).currentUserId;
                 return ListView.builder(
                   itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
                     User user = User.fromDoc(data[index]);
                     return _userNameIncludesInput(user.name)
-                        ? _buildUserTile(user)
+                        ? _buildUserTile(user, currentUserId)
                         : SizedBox.shrink();
                   },
                 );
