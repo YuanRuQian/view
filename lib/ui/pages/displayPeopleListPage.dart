@@ -37,6 +37,7 @@ class _DisplayPeopleListPageState extends State<DisplayPeopleListPage> {
         print('_getUsersIds ERROR : ${err.toString()}');
       });
     }
+    print('ids length: ${ids.length}');
     setState(() {
       usersList = ids;
     });
@@ -44,27 +45,23 @@ class _DisplayPeopleListPageState extends State<DisplayPeopleListPage> {
 
   _buildUserTile(String id, String currentUserId) async {
     User user;
-    bool okay;
     await DatabaseService.getUserWithId(id).then((res) {
       user = res;
-      okay = true;
+      print('_buildUserTile user: ${user.name}');
     }).catchError((err) {
       print('_buildUserTile ERROR : ${err.toString()}');
-      okay = false;
     });
-    return okay
-        ? ListTile(
-            leading: CircleAvatar(
-              radius: 20.0,
-              backgroundImage: user.profileImageUrl.isEmpty
-                  ? AssetImage('assets/images/user_placeholder.jpg')
-                  : CachedNetworkImageProvider(user.profileImageUrl),
-            ),
-            title: Text(user.name),
-            onTap: () => Navigator.of(context)
-                .push(_createProfilePageRoute(user, currentUserId)),
-          )
-        : SizedBox.shrink();
+    return ListTile(
+      leading: CircleAvatar(
+        radius: 20.0,
+        backgroundImage: user.profileImageUrl.isEmpty
+            ? AssetImage('assets/images/user_placeholder.jpg')
+            : CachedNetworkImageProvider(user.profileImageUrl),
+      ),
+      title: Text(user.name),
+      onTap: () => Navigator.of(context)
+          .push(_createProfilePageRoute(user, currentUserId)),
+    );
   }
 
   Route _createProfilePageRoute(User user, String currentUserId) {
@@ -99,30 +96,48 @@ class _DisplayPeopleListPageState extends State<DisplayPeopleListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          widget.followers ? '您的被关注列表' : '您的关注列表',
-          style: TextStyle(color: Colors.black),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text(
+            widget.followers ? '您的被关注列表' : '您的关注列表',
+            style: TextStyle(color: Colors.black),
+          ),
         ),
-      ),
-      body: usersList == null || usersList.length == 0
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  _buildTextHint(),
-                ],
-              ),
-            )
-          : ListView.builder(
-              itemCount: usersList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return SizedBox.shrink();
-                // return _buildUserTile(usersList[index], widget.currentUserId);
-              },
-            ),
-    );
+        body: usersList == null || usersList.length == 0
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    _buildTextHint(),
+                  ],
+                ),
+              )
+            : ListView.builder(
+                itemCount: usersList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return FutureBuilder(
+                      future: DatabaseService.getUserWithId(usersList[index]),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return SizedBox.shrink();
+                        }
+                        User user = snapshot.data;
+                        return ListTile(
+                          leading: CircleAvatar(
+                            radius: 20.0,
+                            backgroundImage: user.profileImageUrl.isEmpty
+                                ? AssetImage(
+                                    'assets/images/user_placeholder.jpg')
+                                : CachedNetworkImageProvider(
+                                    user.profileImageUrl),
+                          ),
+                          title: Text(user.name),
+                          onTap: () => Navigator.of(context).push(
+                              _createProfilePageRoute(
+                                  user, widget.currentUserId)),
+                        );
+                      });
+                }));
   }
 }
