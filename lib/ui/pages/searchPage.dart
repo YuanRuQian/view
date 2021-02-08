@@ -43,7 +43,7 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  _buildUserTile(User user,String currentUserId) {
+  _buildUserTile(User user, String currentUserId) {
     return ListTile(
       leading: CircleAvatar(
         radius: 20.0,
@@ -53,18 +53,35 @@ class _SearchPageState extends State<SearchPage> {
       ),
       title: Text(user.name),
       onTap: () => Navigator.of(context)
-                            .push(_createProfilePageRoute(user,currentUserId)),
+          .push(_createProfilePageRoute(user, currentUserId)),
     );
   }
 
-  Route _createProfilePageRoute(User user,String currentUserId) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => ProfilePage(
-            currentUserId: currentUserId,
-            userId: user.id,
+  _blankPage() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text('没有找到相关的用户',
+              style: TextStyle(fontSize: 20.0, color: Colors.black)),
+          Image.asset(
+            'assets/images/blank_page.png',
+            height: 250.0,
+            width: 250.0,
           ),
-      transitionsBuilder: generalPageTransitionAnimation
+        ],
+      ),
     );
+  }
+
+  Route _createProfilePageRoute(User user, String currentUserId) {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ProfilePage(
+              currentUserId: currentUserId,
+              userId: user.id,
+            ),
+        transitionsBuilder: generalPageTransitionAnimation);
   }
 
   _clearSearch() {
@@ -137,11 +154,6 @@ class _SearchPageState extends State<SearchPage> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                if (snapshot.data.documents.length == 0) {
-                  return Center(
-                    child: Text('Oops, 没有找到相关用户......'),
-                  );
-                }
                 var data = snapshot.data.documents;
                 var docs = [];
                 for (int i = 0; i < data.length; i++) {
@@ -149,6 +161,9 @@ class _SearchPageState extends State<SearchPage> {
                   if (_userNameIncludesInput(user.name)) {
                     docs.add(data[i]);
                   }
+                }
+                if (snapshot.data.documents.length == 0 || docs.length == 0) {
+                  return _blankPage();
                 }
                 String currentUserId =
                     Provider.of<UserData>(context).currentUserId;
