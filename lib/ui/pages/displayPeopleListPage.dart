@@ -37,7 +37,6 @@ class _DisplayPeopleListPageState extends State<DisplayPeopleListPage> {
         print('_getUsersIds ERROR : ${err.toString()}');
       });
     }
-    print('ids length: ${ids.length}');
     setState(() {
       usersList = ids;
     });

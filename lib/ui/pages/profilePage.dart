@@ -274,7 +274,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               SizedBox(height: 5.0),
               Container(
-                height: 80.0,
                 child: Text(
                   user.bio,
                   style: TextStyle(fontSize: 15.0),
