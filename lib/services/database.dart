@@ -96,6 +96,28 @@ class DatabaseService {
     return followersSnapshot.documents.length;
   }
 
+  static Future<List<String>> getFollowersIds(String userId) async {
+    QuerySnapshot followersSnapshot = await followersRef
+        .document(userId)
+        .collection('userFollowers')
+        .getDocuments();
+    if (followersSnapshot.documents.length == 0) return [];
+    List followers =
+        followersSnapshot.documents.map((doc) => doc.documentID).toList();
+    return followers;
+  }
+
+  static Future<List<String>> getFollowingIds(String userId) async {
+    QuerySnapshot followingSnapshot = await followingRef
+        .document(userId)
+        .collection('userFollowing')
+        .getDocuments();
+    if (followingSnapshot.documents.length == 0) return [];
+    List followings =
+        followingSnapshot.documents.map((doc) => doc.documentID).toList();
+    return followings;
+  }
+
   static Stream<List<Post>> getFeedPosts(String userId) {
     return feedsRef
         .document(userId)

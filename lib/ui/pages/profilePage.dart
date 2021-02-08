@@ -6,6 +6,7 @@ import 'package:view/models/userData.dart';
 import 'package:view/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:view/ui/pages/commentPage.dart';
+import 'package:view/ui/pages/displayPeopleListPage.dart';
 import 'package:view/ui/widgets/postView.dart';
 import 'package:view/ui/pages/editProfilePage.dart';
 import 'package:view/services/authentication.dart';
@@ -162,6 +163,16 @@ class _ProfilePageState extends State<ProfilePage> {
             ));
   }
 
+  Route _createDisplayPeopleListPageRoute(String currentUserId, bool followers) {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            DisplayPeopleListPage(
+              currentUserId: currentUserId,
+              followers: followers,
+            ),
+        transitionsBuilder: generalPageTransitionAnimation);
+  }
+
   _buildProfileInfo(User user) {
     return Column(
       children: <Widget>[
@@ -197,36 +208,48 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ],
                         ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              _followerCount.toString(),
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              '被关注',
-                              style: TextStyle(color: Colors.black54),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              _followingCount.toString(),
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              '关注中',
-                              style: TextStyle(color: Colors.black54),
-                            ),
-                          ],
-                        ),
+                        GestureDetector(
+                            onTap: () => {
+                              Navigator.of(context).push(
+                                  _createDisplayPeopleListPageRoute(
+                                      widget.currentUserId, true))
+                            },
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  _followerCount.toString(),
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  '被关注',
+                                  style: TextStyle(color: Colors.black54),
+                                ),
+                              ],
+                            )),
+                        GestureDetector(
+                            onTap: () async {
+                              Navigator.of(context).push(
+                                  _createDisplayPeopleListPageRoute(
+                                      widget.currentUserId, false));
+                            },
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  _followingCount.toString(),
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  '关注中',
+                                  style: TextStyle(color: Colors.black54),
+                                ),
+                              ],
+                            )),
                       ],
                     ),
                     SizedBox(height: 10.0),
@@ -291,8 +314,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Route _createCommentPageRoute(Post post) {
     return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            CommentPage(
+        pageBuilder: (context, animation, secondaryAnimation) => CommentPage(
               post: post,
               likeCount: post.likeCount,
             ),
