@@ -14,17 +14,17 @@ class StorageService {
     File image = await compressImage(photoId, imageFile);
     if (url.isNotEmpty) {
       // Updating user profile image
-      RegExp exp = RegExp(r'userProfile_(.*).(jpg|jpeg)');
+      RegExp exp = RegExp(r'userProfile_(.*).jpg');
       photoId = exp.firstMatch(url)[1];
     }
-    String imgType = extractImgeType(photoId);
     StorageUploadTask uploadTask = storageRef
-        .child('images/users/userProfile_$photoId$imgType')
+        .child('images/users/userProfile_$photoId.jpg')
         .putFile(image);
     StorageTaskSnapshot storageSnap = await uploadTask.onComplete;
     String downloadUrl = await storageSnap.ref.getDownloadURL();
     return downloadUrl;
   }
+
 
   static Future<File> compressImage(String photoId, File image) async {
     final tempDir = await getTemporaryDirectory();

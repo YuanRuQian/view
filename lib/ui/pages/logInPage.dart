@@ -52,7 +52,7 @@ class _LoginPageState extends State<LogInPage> {
                     child: TextFormField(
                       decoration: InputDecoration(labelText: '邮箱'),
                       validator: (input) =>
-                          !validateEmail(input) ? '请输入合法的邮箱地址' : null,
+                          !validateEmail(input) ? '请输入正确的邮箱地址' : null,
                       onSaved: (input) => _email = input,
                     ),
                   ),

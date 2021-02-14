@@ -47,7 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: TextFormField(
                         decoration: InputDecoration(labelText: '用户名'),
                         validator: (input) =>
-                            input.trim().isEmpty ? '请输入一个合法的用户名' : null,
+                            input.trim().isEmpty ? '请输入一个非空的用户名' : null,
                         onSaved: (input) => _name = input,
                       ),
                     ),
@@ -59,7 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: TextFormField(
                         decoration: InputDecoration(labelText: '邮箱'),
                         validator: (input) =>
-                            !validateEmail(input) ? '请输入合法的邮箱地址' : null,
+                            !validateEmail(input) ? '请输入正确的邮箱地址' : null,
                         onSaved: (input) => _email = input,
                       ),
                     ),
