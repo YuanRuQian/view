@@ -6,6 +6,8 @@ import 'package:view/models/userModel.dart';
 import 'package:view/utilities/constants.dart';
 
 class DatabaseService {
+  static Future<QuerySnapshot> _users;
+
   static void updateUser(User user) {
     usersRef.document(user.id).updateData({
       'name': user.name,
@@ -18,6 +20,12 @@ class DatabaseService {
     Future<QuerySnapshot> users =
         usersRef.where('name', isGreaterThanOrEqualTo: name).getDocuments();
     return users;
+  }
+
+  static Future<bool> isDuplicateNameUser(String name) async {
+    QuerySnapshot users =
+        await usersRef.where('name', isEqualTo: name).getDocuments();
+    return users.documents.length > 0;
   }
 
   static void createPost(BuildContext context, Post post) {

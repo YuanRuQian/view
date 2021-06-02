@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:view/services/authentication.dart';
+import 'package:view/services/database.dart';
 import 'package:view/ui/widgets/viewTitle.dart';
 import 'package:view/utilities/constants.dart';
 import 'package:view/utilities/tools.dart';
@@ -13,6 +16,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   String _name, _email, _password;
+  Timer _debounce;
 
   _submit() {
     if (_formKey.currentState.validate()) {
@@ -79,12 +83,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     SizedBox(height: 40.0),
                     Container(
-                      width: 200.0,
-                      child: TextButton(
-                        child: Text("注册"),
-                        style: logInSignUpBtnStyle,
-                        onPressed: _submit,
-                      )),
+                        width: 200.0,
+                        child: TextButton(
+                          child: Text("注册"),
+                          style: logInSignUpBtnStyle,
+                          onPressed: _submit,
+                        )),
                     SizedBox(height: 20.0),
                     Container(
                         width: 200.0,

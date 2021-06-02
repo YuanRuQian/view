@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:view/models/userData.dart';
 import 'package:provider/provider.dart';
+import 'package:view/services/database.dart';
 
 class AuthService {
   static final _auth = FirebaseAuth.instance;
@@ -31,6 +32,11 @@ class AuthService {
   static void signup(
       BuildContext context, String name, String email, String password) async {
     try {
+      bool duplicate = await DatabaseService.isDuplicateNameUser(name);
+      if (duplicate) {
+        _showErrorDialog(context, '重复的用户名');
+        return;
+      }
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,

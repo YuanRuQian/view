@@ -61,6 +61,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
   _submit() async {
     if (_formKey.currentState.validate() && !_isLoading) {
       _formKey.currentState.save();
+      print('duplicate $_name？');
+      bool duplicate = await DatabaseService.isDuplicateNameUser(_name);
+      if (duplicate) {
+        showDialog(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+                title: Text('更新失败!'),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text('重复的用户名!'),
+                    ],
+                  ),
+                ));
+          },
+        );
+        return;
+      }
 
       setState(() {
         _isLoading = true;
