@@ -9,3 +9,5 @@
 测试账号：
 email :  seulgi@view.com
 password : @nxJ]D;6
+
+详情请见: [毕业设计答辩 deck](https://www.canva.com/design/DAEeoGpkiDs/syGNji1cxnPPD_-tczpsRw/view?utm_content=DAEeoGpkiDs&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
